@@ -1,9 +1,12 @@
 import random
 from matplotlib import pyplot as plt
 import numpy as np
-import pandas as pd
 
-def random_walk() -> None:    
+fig = plt.figure(figsize=(10, 7))
+
+def random_walk() -> None:
+    fig1 = plt.subplot(1, 2, 1)
+
     walker = 0
     final_positions = []
 
@@ -18,13 +21,20 @@ def random_walk() -> None:
             
         final_positions.append(walker)
         walker = 0
-    
+
+    final_max = max(final_positions)
+
     count_positions = {}
     for i in range(min(final_positions), max(final_positions)+1):
         if final_positions.count(i) > 0:
             count_positions[i] = final_positions.count(i)
-    
-    plt.plot(
+
+    count_max = max(count_positions.values())
+    for keys in count_positions.keys():
+        count_positions[keys] /= count_max
+
+
+    fig1.plot(
         count_positions.keys(),
         count_positions.values(),
         ls="None",
@@ -32,15 +42,12 @@ def random_walk() -> None:
         markersize=4
     )
 
-    plt.ylim(ymin=0)
-    plt.tight_layout()
+    fig1.set_ylim(ymin=0)
 
-    plt.savefig("random-walk.pdf", dpi=350)
-
-#todo: write the random-walk function
-#todo: plot the equation for diffusion next to the random-walk plot
 
 def plot_diffusion() -> None:
+    fig2 = plt.subplot(1, 2, 2)
+
     MOBILITY = 1e-1
     K = 1.38e-23        #Boltzmann's Constant
     T = 300             #Temperature
@@ -52,17 +59,18 @@ def plot_diffusion() -> None:
 
     xlist = np.linspace(-1, 1, 1000)
 
-    plt.plot(
+    fig2.plot(
         xlist,
         diffusion_1d(xlist),
         ls='-',
         color="red"
     )
 
-    plt.ylim(ymin=0)
-    plt.tight_layout()
+    fig2.set_ylim(ymin=0)
 
-    plt.savefig("initial_diffusion_plot.pdf", dpi=350)
 
 random_walk()
 plot_diffusion()
+
+plt.tight_layout()
+plt.savefig("random-walk.pdf")

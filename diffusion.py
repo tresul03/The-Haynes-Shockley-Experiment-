@@ -1,17 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import PillowWriter
 from matplotlib.animation import FFMpegWriter
 plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
 
 MOBILITY = 1e-1
-K = 1.38e-23
-T = 300
-Q = 1.6e-19
+K = 1.38e-23        #Boltzmann's Constant
+T = 300             #Temperature
+Q = 1.6e-19         #Electron Charge
+tau = 10e-6         #Charge Carrier Lifetime
+v = 0.1             #Charge Carrier Drift Velocity
 
-v = 0.1
-
-D = (MOBILITY*K*T)/Q
+D = (MOBILITY*K*T)/Q        #Diffusion Constant
 
 fig = plt.figure()
 l, = plt.plot([], [], ls="-", color="red")
@@ -29,6 +28,7 @@ writer = FFMpegWriter(fps=100, metadata=metadata)
 xlist = np.linspace(-1, 1, 1000)
 ylist = np.zeros(1000)
 
+#charge carrier diffusion:
 with writer.saving(fig, "diffusion.mp4", 100):
     for tval in np.linspace(0, 10, 1000):
         match tval:
@@ -44,13 +44,14 @@ with writer.saving(fig, "diffusion.mp4", 100):
         writer.grab_frame()
         ylist = np.array([])
 
+#charge carrier diffusion with drift
 with writer.saving(fig, "diffusion_with_drift.mp4", 100):
     for tval in np.linspace(0, 10, 1000):
         match tval:
             case 0:
                 ylist = xlist * 0
             case _:
-                ylist = normaliser(tval) * diffusion_1d(xlist, tval)
+                ylist = normaliser(tval) * diffusion_drift_1d(xlist, tval)
                         
         plt.xlabel("Displacement / m")
         plt.ylabel("Charge Carrier Population")
@@ -59,4 +60,5 @@ with writer.saving(fig, "diffusion_with_drift.mp4", 100):
         writer.grab_frame()
         ylist = np.array([])
 
-#! the lambda functions are encountering division by zero, but they're only used if tval != 0
+
+#todo: do another simulation accounting for carrier lifetime
