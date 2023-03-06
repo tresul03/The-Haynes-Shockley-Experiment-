@@ -32,4 +32,4 @@ plt.ylabel("$\mu_{h} / cm^{2}/Vs$")
 plt.tight_layout()
 
 #saving graph
-plt.savefig("complicatedmobilityagainstatemperaturewhichihaventfound.pdf", dpi=350)
+plt.savefig("plots/dopant_mobility_vs_temperature.pdf", dpi=350)

@@ -73,4 +73,4 @@ random_walk()
 plot_diffusion()
 
 plt.tight_layout()
-plt.savefig("random-walk.pdf")
+plt.savefig("plots/random-walk.pdf")

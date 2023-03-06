@@ -29,7 +29,7 @@ xlist = np.linspace(-1, 1, 1000)
 ylist = np.zeros(1000)
 
 #charge carrier diffusion:
-with writer.saving(fig, "diffusion.mp4", 100):
+with writer.saving(fig, "plots/diffusion.mp4", 100):
     for tval in np.linspace(0, 10, 1000):
         match tval:
             case 0:
@@ -45,7 +45,7 @@ with writer.saving(fig, "diffusion.mp4", 100):
         ylist = np.array([])
 
 #charge carrier diffusion with drift
-with writer.saving(fig, "diffusion_with_drift.mp4", 100):
+with writer.saving(fig, "plots/diffusion_with_drift.mp4", 100):
     for tval in np.linspace(0, 10, 1000):
         match tval:
             case 0:
