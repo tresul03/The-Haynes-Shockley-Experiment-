@@ -1,11 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-import time
 
-#todo: produce a graph of hole mobility against temperature
-
-t0 = time.time()
 #intiialising the figure
 fig = plt.figure(figsize=(10, 7))
 plt.xlim(290, 320)
