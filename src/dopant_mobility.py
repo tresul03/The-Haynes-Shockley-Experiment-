@@ -9,7 +9,7 @@ plt.xlim(290, 320)
 temperature = np.linspace(290, 320, 500) #dependent variable
 charge_carrier_concentration = np.array([1e13*(10**i) for i in range(1, 8)])
 
-#dopant mobility equation - I split it into parts for readability's sake
+#dopant mobility equation - I've split it into parts for readability's sake
 mobility_add_term = lambda temp: 54.3 * ((temp/300)**(-0.57))
 mobility_numerator = lambda temp: 1.36e8 * (temp**(-2.33))
 mobility_denominator = lambda temp, dopant_conc: 1 + 0.88 * (dopant_conc/(2.35e17 * (temp/300)**2.4)) * (temp/300)** -0.146
