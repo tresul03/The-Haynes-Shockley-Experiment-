@@ -14,6 +14,8 @@
 long double normaliser(float time);
 long double decay(float time);
 long double probabilityDensity(long double x, long double time);
+long double randomWalk();
+int returnRandomNumber(int lower, int upper);
 
 int main(void){
 
@@ -36,6 +38,43 @@ long double decay(float time){
 long double probabilityDensity(long double x, long double time){
     return normaliser(time) * exp(- pow(x, 2) / (4*DIFFUSION_CONSTANT*time));
 }
+
+
+long double randomWalk(){
+    FILE* fp = fopen("random_walk.csv", "w");
+    if(fp == NULL){
+        perror("Unable to open file");
+        fclose(fp);
+        fp = NULL;
+    }
+
+    int walker = 0;
+    for(int i=0; i<10000; i++){
+        for(int i=0; i<1000; i++){
+            switch(returnRandomNumber(0, 1)){
+                case 0:
+                    walker--;
+                    break;
+                
+                case 1:
+                    walker++;
+                    break;
+
+            }
+        
+        }
+    
+    }
+
+
+    fclose(fp);
+    fp = NULL;
+}
+
+int returnRandomNumber(int lower, int upper){
+    return (rand() % (upper - lower + 1)) + lower;
+}
+
 
 //todo: write the random-walk algorithm
 //todo: write an output file (idk how to word this better atm)
