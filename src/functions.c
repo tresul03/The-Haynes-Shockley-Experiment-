@@ -59,11 +59,10 @@ long double randomWalk(){
                 case 1:
                     walker++;
                     break;
-
             }
-        
         }
-    
+        
+
     }
 
 
@@ -78,3 +77,4 @@ int returnRandomNumber(int lower, int upper){
 
 //todo: write the random-walk algorithm
 //todo: write an output file (idk how to word this better atm)
+//todo: write a file of pulse duration against time
