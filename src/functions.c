@@ -14,11 +14,11 @@
 long double normaliser(float time);
 long double decay(float time);
 long double probabilityDensity(long double x, long double time);
-long double randomWalk();
+void randomWalk();
 int returnRandomNumber(int lower, int upper);
 
 int main(void){
-
+    randomWalk();
 
 
     return 0;
@@ -40,7 +40,7 @@ long double probabilityDensity(long double x, long double time){
 }
 
 
-long double randomWalk(){
+void randomWalk(){
     FILE* fp = fopen("random_walk.csv", "w");
     if(fp == NULL){
         perror("Unable to open file");
@@ -49,22 +49,24 @@ long double randomWalk(){
     }
 
     int walker = 0;
+    int positions[10000];
+
+    fprintf(fp, "x/m\n");
     for(int i=0; i<10000; i++){
-        for(int i=0; i<1000; i++){
+        for(int j=0; j<1000; j++){
             switch(returnRandomNumber(0, 1)){
                 case 0:
                     walker--;
                     break;
-                
+
                 case 1:
                     walker++;
                     break;
             }
         }
-        
-
+        fprintf(fp, "%d\n", walker);
+        walker = 0; 
     }
-
 
     fclose(fp);
     fp = NULL;
