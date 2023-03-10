@@ -22,8 +22,6 @@ def random_walk() -> None:
         final_positions.append(walker)
         walker = 0
 
-    final_max = max(final_positions)
-
     count_positions = {}
     for i in range(min(final_positions), max(final_positions)+1):
         if final_positions.count(i) > 0:

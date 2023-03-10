@@ -36,7 +36,7 @@ writer = FFMpegWriter(fps=100, metadata=metadata)
 xlist = np.linspace(-1, 1, 50001)
 ylist = np.zeros(50001)
 
-xlabel, ylabel = "Displacement / m", "$Charge Carrier Concentration / \n_{0}$" 
+xlabel, ylabel = "Displacement / m", "Charge Carrier Concentration / $n_{0}$" 
 
 # charge carrier diffusion:
 with writer.saving(fig, "plots/diffusion.mp4", 100):
