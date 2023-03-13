@@ -11,17 +11,29 @@
 #define CARRIER_LIFETIME 10e-6
 
 
-long double normaliser(float time);
-long double decay(float time);
-long double probabilityDensity(long double x, long double time);
-void randomWalk();
 int returnRandomNumber(int lower, int upper);
+long double normaliser(float time);
+long double probabilityDensity(long double x, long double time);
+long double drift(long double x, long double time);
+long double decay(float time);
+void randomWalk();
+
+void mobility_vs_temp();
 
 int main(int argc, char* argv[]){
     randomWalk();
 
 
     return 0;
+}
+
+void openFile(FILE* file, const char* filename, const char* editType){
+    file = fopen(filename, editType);
+    if(file == NULL){
+        perror("Unable to open file");
+        fclose(file);
+        file = NULL;
+    }
 }
 
 
