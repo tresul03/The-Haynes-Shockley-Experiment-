@@ -17,6 +17,9 @@ class RandomWalk():
         
         dict_df = {dict_df[keys]:(values / max(values)) for keys, values, in dict_df.items()}
 
+        xlabel, ylabel = "Displacement / m", "$P(x, t)$"
+        
+
 
 
 randomer = RandomWalk()
