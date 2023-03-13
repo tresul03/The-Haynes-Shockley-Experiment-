@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import subprocess
 import pandas as pd
+from plotter import Plotter
 
 class RandomWalk():
     def random_walk(self):
@@ -18,8 +19,9 @@ class RandomWalk():
         dict_df = {dict_df[keys]:(values / max(values)) for keys, values, in dict_df.items()}
 
         xlabel, ylabel = "Displacement / m", "$P(x, t)$"
-        
 
+        #todo: pass dict_df into plotter
+        plotter = Plotter()
 
 
 randomer = RandomWalk()

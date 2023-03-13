@@ -17,7 +17,7 @@ long double probabilityDensity(long double x, long double time);
 void randomWalk();
 int returnRandomNumber(int lower, int upper);
 
-int main(void){
+int main(int argc, char* argv[]){
     randomWalk();
 
 
@@ -38,6 +38,7 @@ long double decay(float time){
 long double probabilityDensity(long double x, long double time){
     return normaliser(time) * exp(- pow(x, 2) / (4*DIFFUSION_CONSTANT*time));
 }
+
 
 
 void randomWalk(){
