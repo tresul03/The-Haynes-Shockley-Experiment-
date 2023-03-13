@@ -42,7 +42,7 @@ class Plotter():
                 y = np.array([])
     
     def plot_graph(self, label=None):
-        self.fig.plot(
+        plt.plot(
             self.x,
             self.y,
             ls="None",
