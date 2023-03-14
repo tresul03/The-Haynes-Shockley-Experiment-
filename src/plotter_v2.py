@@ -66,3 +66,7 @@ class Plotter():
 
             self.fig.tight_layout()
             self.fig.savefig(f"plots/{self.figname}.pdf")
+    
+
+    def animate(self):
+        
