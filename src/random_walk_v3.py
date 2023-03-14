@@ -1,11 +1,10 @@
-from matplotlib import pyplot as plt
 import numpy as np
 import random
-import pandas as pd
 from plotter_v2 import Plotter
+from values import Values
 
 class RandomWalk():
-    def random_walk(self):
+    def random_walk(self) -> dict:
         walker = 0 #initial particle position
         positions = [] #list of final positions reached by each particle
 
@@ -29,8 +28,19 @@ class RandomWalk():
         for key in dict_positions.keys():
             dict_positions[key] /= max_position
 
-        plotter = Plotter(dict_positions.keys(), dict_positions.values(), 0, "Displacement / m", "$P(x, t)$", "random")
-        plotter.plot_graph()
+        return dict_positions
+
+    def diffusion(self) -> dict:
+        diffusion_1d = lambda x: np.exp(-x**2 / (4*Values.D))
+        keys = np.linspace(-1, 1, 1001)
+        values = diffusion_1d(keys)
+
+        return dict(zip(keys, values))
+
 
 randomer = RandomWalk()
-randomer.random_walk()
+dict1 = randomer.random_walk()
+dict2 = randomer.diffusion()
+
+plotter = Plotter("Displacement / m", "$P(x, t)$", "random")
+plotter.plot_multiple_plots(2, dict1, dict2)
