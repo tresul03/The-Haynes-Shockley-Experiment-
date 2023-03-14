@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 #define PI 3.14159265358979323846
 #define BOLTZMANN_CONST 1.38e-23
@@ -86,7 +87,9 @@ void randomWalk(){
 }
 
 int returnRandomNumber(int lower, int upper){
-    return (rand() % (upper - lower + 1)) + lower;
+    srand(time(NULL));
+    int num = rand() % 2;
+    return num;
 }
 
 
