@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import random
-import subprocess
 from scipy.optimize import curve_fit
 from matplotlib.animation import FFMpegWriter
 plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
@@ -68,5 +66,24 @@ class Plotter():
             self.fig.savefig(f"plots/{self.figname}.pdf")
     
 
-    def animate(self):
-        
+    def animate(self, xlist, func, time, xlims, ylims):
+        metadata = dict(title="Diffusion", artist="Resul Teymuroglu")
+        writer = FFMpegWriter(fps=100, metadata=metadata)
+        l, = plt.plot([], [], ls="-", color="red")
+
+        with writer.saving(self.fig, f"plots/{self.figname}.mp4", 100):
+            for tval in np.linspace(0, time, 1000):
+                plt.xlim(xlims)
+                plt.ylim(ylims)
+                plt.xlabel(self.xlabel)
+                plt.ylabel(self.ylabel)
+
+                ylist = np.array([])
+                match tval:
+                    case 0:
+                        ylist = xlist * 0
+                    case _:
+                        ylist = func(xlist, tval)
+
+                l.set_data(xlist, ylist)
+                writer.grab_frame()
