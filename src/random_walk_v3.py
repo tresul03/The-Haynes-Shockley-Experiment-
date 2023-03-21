@@ -25,10 +25,6 @@ class RandomWalk():
             if positions.count(i) > 0:
                 dict_positions[i] = positions.count(i)
 
-        # max_position = max(dict_positions.values())
-        # for key in dict_positions.keys():
-        #     dict_positions[key] /= max_position
-
         return dict_positions
 
     def diffusion(self) -> dict:
