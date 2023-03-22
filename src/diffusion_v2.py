@@ -3,6 +3,11 @@ import numpy as np
 from plotter_v2 import Plotter
 
 class Diffusion:
+    def __init__(self):
+        self.xlabel = "Displacement / m"
+        self.ylabel = "Charge Carrier Concentration / $n_{0}$"
+        self.xlist = np.linspace(-1, 1, 50001)
+
     def normaliser(self, t):
         return np.sqrt(4*np.pi*Values.D*t) ** -1
 
@@ -15,9 +20,6 @@ class Diffusion:
     def diffusion_decay_1d(self, x, t):
         return self.diffusion_drift_1d(x, t) * np.exp(-t/Values.TAU)
 
-    xlist = np.linspace(-1, 1, 50001)
-    xlabel = "Displacement / m"
-    ylabel = "Charge Carrier Concentration / $n_{0}$"
 
 # diffusion = Diffusion()
 # plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion_v2")
