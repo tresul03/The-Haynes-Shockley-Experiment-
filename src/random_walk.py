@@ -41,17 +41,3 @@ class RandomWalk():
 
         return dict(zip(keys, values))
 
-# randomer = RandomWalk()
-# diffusion = Diffusion()
-# plotter = Plotter(randomer.xlabel, randomer.ylabel, "random")
-# plotter2 = Plotter(randomer.xlabel, randomer.ylabel, "random-multiple")
-# plotter3 = Plotter(randomer.xlabel, randomer.ylabel, "decay_static")
-
-# dict1 = randomer.random_walk(50)
-# dict2 = randomer.diffusion()
-# dict3 = [randomer.random_walk(i) for i in range(50, 100, 10)]
-# dict4 = [dict(zip(randomer.xlist, diffusion.diffusion_decay_1d(randomer.xlist, tval))) for tval in randomer.tlist]
-
-# plotter.plot_multiple_plots(2, dict1, dict2)
-# plotter2.plot_multiple_graphs(*dict3, xlims=(-1500, 500), ylims=(0, 1000))
-# plotter3.plot_multiple_graphs(*dict4, xlims=(-0.0025, 0.0025), ylims=(0, 20), marker="None", ls="-")

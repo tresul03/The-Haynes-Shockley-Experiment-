@@ -22,14 +22,3 @@ class Diffusion():
         return self.diffusion_drift_1d(x, t) * np.exp(-t/self.values.TAU)
 
 
-# diffusion = Diffusion()
-# plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion_v2")
-# plotter_diffusion.animate(diffusion.xlist, diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 20))
-
-# drift = Diffusion()
-# plotter_drift = Plotter(drift.xlabel, drift.ylabel, "drift_v2")
-# plotter_drift.animate(drift.xlist, drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 50))
-
-# decay = Diffusion()
-# plotter_decay = Plotter(decay.xlabel, decay.ylabel, "decay_v2")
-# plotter_decay.animate(decay.xlist, decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 20))
