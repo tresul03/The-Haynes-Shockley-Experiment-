@@ -13,22 +13,22 @@ class Brains():
 
     def plot_diffusion_videos(self):
         diffusion = Diffusion()
-        plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion_v3")
+        plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion")
         plotter_diffusion.animate(diffusion.xlist, diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 20))
 
         drift = Diffusion()
-        plotter_drift = Plotter(drift.xlabel, drift.ylabel, "drift_v3")
+        plotter_drift = Plotter(drift.xlabel, drift.ylabel, "drift")
         plotter_drift.animate(drift.xlist, drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 50))
 
         decay = Diffusion()
-        plotter_decay = Plotter(decay.xlabel, decay.ylabel, "decay_v3")
+        plotter_decay = Plotter(decay.xlabel, decay.ylabel, "decay")
         plotter_decay.animate(decay.xlist, decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 20))
 
 
     def plot_random_walk_graphs(self):
-        plotter = Plotter(self.randomer.xlabel, self.randomer.ylabel, "random_v2") #plotter for random walk
-        plotter2 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "random-multiple_v2") #plotter for multiple random walks
-        plotter3 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "decay-static_v2") #plotter for decay at set times
+        plotter = Plotter(self.randomer.xlabel, self.randomer.ylabel, "random") #plotter for random walk
+        plotter2 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "random-multiple") #plotter for multiple random walks
+        plotter3 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "decay-static") #plotter for decay at set times
 
         dict1 = self.randomer.random_walk(50)
         dict2 = self.randomer.diffusion()
@@ -41,5 +41,5 @@ class Brains():
 
 
     def plot_dopant_mobility_graphs(self):
-        plotter = Plotter(self.dopant_mobility.xlabel, self.dopant_mobility.ylabel, "mobility_v2")
+        plotter = Plotter(self.dopant_mobility.xlabel, self.dopant_mobility.ylabel, "mobility")
         plotter.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(150, 400), ylims=(0, 2e3), marker="None", ls="-")
