@@ -11,9 +11,11 @@ class Plotter():
         self.ylabel = ylabel        #label of y-axis
         self.figname = figname      #name of plot
         self.fig = plt.figure(figsize=(10, 7))     #initialising figure
+        self.ax = self.fig.add_subplot(111)        #initialising axis
 
-    def plot_graph(self, xlist, ylist, ls="None", marker='x', label=None, best_fit=False):
-        plt.plot(
+
+    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False):
+        self.ax.plot(
             xlist,
             ylist,
             ls=ls,
@@ -26,8 +28,13 @@ class Plotter():
         if best_fit:
             self.plot_best_fit(xlist, ylist)
 
+        self.ax.set_xlabel(self.xlabel)
+        self.ax.set_ylabel(self.ylabel)
+        self.ax.set_xlim(xlims)
+        self.ax.set_ylim(ylims)
+
         self.fig.tight_layout()
-        self.fig.savefig(f"{self.figname}.pdf", dpi=350)
+        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
 
     def plot_best_fit(self, xlist, ylist):
         linear = lambda m,x,c: m*x+c
