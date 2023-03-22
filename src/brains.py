@@ -2,21 +2,27 @@ from diffusion import Diffusion
 from values import Values
 from plotter import Plotter
 from random_walk import RandomWalk
+from dopant_mobility import DopantMobility
 
 class Brains():
     def __init__(self):
         self.values = Values()
-        self.diffusion = Diffusion()
         self.randomer = RandomWalk()
+        self.dopant_mobility = DopantMobility()
+        self.diffusion = Diffusion()
 
     def plot_diffusion_videos(self):
-        plotter_diffusion = Plotter(self.diffusion.xlabel, self.diffusion.ylabel, "diffusion_v2")
-        plotter_drift = Plotter(self.diffusion.xlabel, self.diffusion.ylabel, "drift_v2")
-        plotter_decay = Plotter(self.diffusion.xlabel, self.diffusion.ylabel, "decay_v2")
+        diffusion = Diffusion()
+        plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion_v3")
+        plotter_diffusion.animate(diffusion.xlist, diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 20))
 
-        plotter_diffusion.animate(self.diffusion.xlist, self.diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 20))
-        plotter_drift.animate(self.diffusion.xlist, self.diffusion.diffusion_drift_1d, 0.1, (-1, 1), (0, 50))
-        plotter_decay.animate(self.diffusion.xlist, self.diffusion.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 20))
+        drift = Diffusion()
+        plotter_drift = Plotter(drift.xlabel, drift.ylabel, "drift_v3")
+        plotter_drift.animate(drift.xlist, drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 50))
+
+        decay = Diffusion()
+        plotter_decay = Plotter(decay.xlabel, decay.ylabel, "decay_v3")
+        plotter_decay.animate(decay.xlist, decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 20))
 
 
     def plot_random_walk_graphs(self):
@@ -33,3 +39,7 @@ class Brains():
         plotter2.plot_multiple_graphs(*dict3, xlims=(-1500, 500), ylims=(0, 1000)) #plots random walk at different probabilities
         plotter3.plot_multiple_graphs(*dict4, xlims=(-0.0025, 0.0025), ylims=(0, 20), marker="None", ls="-") #plots decay at set times
 
+
+    def plot_dopant_mobility_graphs(self):
+        plotter = Plotter(self.dopant_mobility.xlabel, self.dopant_mobility.ylabel, "mobility_v2")
+        plotter.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(150, 400), ylims=(0, 2e3), marker="None", ls="-")
