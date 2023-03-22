@@ -8,9 +8,9 @@ class RandomWalk():
     def __init__(self):
         self.xlabel = "Displacement / m"
         self.ylabel = "Charge Carrier Concentration / $n_{0}$"
-        self.values = Values()
+        self.values = Values() #initialises values
         self.xlist = np.linspace(-1, 1, 500000)
-        self.tlist = np.linspace(0.4e-4, 1e-4, 10)
+        self.tlist = np.linspace(0.4e-4, 1e-4, 10) 
 
     def random_walk(self, upper: int) -> dict:
         walker = 0 #initial particle position
@@ -35,7 +35,7 @@ class RandomWalk():
         return dict_positions
 
     def diffusion(self) -> dict:
-        diffusion_1d = lambda x: np.exp(-x**2 / (4*self.values.D))
+        diffusion_1d = lambda x: np.exp(-x**2 / (4*self.values.D)) #diffusion equation
         keys = np.linspace(-1, 1, 1001)
         values = diffusion_1d(keys)
 

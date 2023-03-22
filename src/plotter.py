@@ -6,14 +6,14 @@ from matplotlib.animation import FFMpegWriter
 plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
 
 class Plotter():
-    def __init__(self, xlabel: str, ylabel: str, figname: str):
+    def __init__(self, xlabel: str, ylabel: str, figname: str): #initialises plotter
         self.xlabel = xlabel        #label of x-axis
         self.ylabel = ylabel        #label of y-axis
         self.figname = figname      #name of plot
         self.fig = plt.figure(figsize=(10, 7))     #initialising figure
 
 
-    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False):
+    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False): #plots a graph
         ax = self.fig.add_subplot(111)
         ax.plot(
             xlist,
@@ -21,7 +21,7 @@ class Plotter():
             ls=ls,
             marker=marker,
             markersize=4,
-            color='#%06X' % random.randint(0, 0xFFFFFF),
+            color='#%06X' % random.randint(0, 0xFFFFFF), #random colour
             label=label
         )
 
@@ -36,7 +36,7 @@ class Plotter():
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
 
-    def plot_best_fit(self, xlist, ylist):
+    def plot_best_fit(self, xlist, ylist): #plots a best fit line on a graph
         linear = lambda m,x,c: m*x+c
         popt, pcov = curve_fit(linear, xlist, ylist)
 
@@ -50,7 +50,7 @@ class Plotter():
         print(f"Gradient = {popt[0]:.2f} +/- {pcov[0][0]:.2f}")
         print(f"Intercept = {popt[1]:2f} +/- {pcov[1][1]:.2f}")
     
-    def plot_multiple_plots(self, n, *args: dict):
+    def plot_multiple_plots(self, n, *args: dict): #plots multiple graphs on the same figure
         rows = int(np.ceil(n/np.ceil(np.sqrt(n))))
         columns = int(np.ceil(np.sqrt(n)))
 
@@ -72,7 +72,7 @@ class Plotter():
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
 
 
-    def animate(self, xlist, func, time, xlims, ylims):
+    def animate(self, xlist, func, time, xlims, ylims): # xlist is the x-axis, func is the function to be animated, time is the time to animate over
         metadata = dict(title="Diffusion", artist="Resul Teymuroglu")
         writer = FFMpegWriter(fps=100, metadata=metadata)
         l, = plt.plot([], [], ls="-", color="red")
@@ -91,11 +91,11 @@ class Plotter():
                     case _:
                         ylist = func(xlist, tval)
 
-                l.set_data(xlist, ylist)
-                writer.grab_frame()
+                l.set_data(xlist, ylist) #updates the plot
+                writer.grab_frame() #saves the frame
 
 
-    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims):
+    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims): # plots multiple graphs on the same plot
         ax = self.fig.add_subplot(111)
         for arg in args:
             ax.plot(
