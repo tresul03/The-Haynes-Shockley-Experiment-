@@ -11,11 +11,11 @@ class Plotter():
         self.ylabel = ylabel        #label of y-axis
         self.figname = figname      #name of plot
         self.fig = plt.figure(figsize=(10, 7))     #initialising figure
-        self.ax = self.fig.add_subplot(111)        #initialising axis
 
 
     def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False):
-        self.ax.plot(
+        ax = self.fig.add_subplot(111)
+        ax.plot(
             xlist,
             ylist,
             ls=ls,
@@ -28,10 +28,10 @@ class Plotter():
         if best_fit:
             self.plot_best_fit(xlist, ylist)
 
-        self.ax.set_xlabel(self.xlabel)
-        self.ax.set_ylabel(self.ylabel)
-        self.ax.set_xlim(xlims)
-        self.ax.set_ylim(ylims)
+        ax.set_xlabel(self.xlabel)
+        ax.set_ylabel(self.ylabel)
+        ax.set_xlim(xlims)
+        ax.set_ylim(ylims)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
@@ -62,14 +62,14 @@ class Plotter():
                 ls="None",
                 marker='x',
                 markersize=4,
-                color='#%06X' % random.randint(0, 0xFFFFFF),
+                color='#%06X' % random.randint(0, 0xFFFFFF)
             )
 
             ax.set_xlabel(self.xlabel)
             ax.set_ylabel(self.ylabel)
 
-            self.fig.tight_layout()
-            self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
+        self.fig.tight_layout()
+        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
 
 
     def animate(self, xlist, func, time, xlims, ylims):
