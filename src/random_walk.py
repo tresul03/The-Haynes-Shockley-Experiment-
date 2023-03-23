@@ -12,13 +12,13 @@ class RandomWalk():
         self.xlist = np.linspace(-1, 1, 500000)
         self.tlist = np.linspace(0.4e-4, 1e-4, 10) 
 
-    def random_walk(self, upper: int) -> dict:
+    def random_walk(self, skew_point: int) -> dict: #skew_point is the probability of moving left
         walker = 0 #initial particle position
         positions = [] #list of final positions reached by each particle
 
         for _ in range(10000): #10000 particles
             for _ in range(1000): #1000 steps per particle
-                match random.randint(0, 100) > upper: #probability of moving left 
+                match random.randint(0, 100) >= skew_point: #probability of moving left 
                     case False: 
                         walker -= 1
                     case _:

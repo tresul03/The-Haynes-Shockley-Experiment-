@@ -4,6 +4,7 @@ import random
 from scipy.optimize import curve_fit
 from matplotlib.animation import FFMpegWriter
 plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
+plt.rcParams['font.size'] = 17
 
 class Plotter():
     def __init__(self, xlabel: str, ylabel: str, figname: str): #initialises plotter
@@ -51,6 +52,8 @@ class Plotter():
         print(f"Intercept = {popt[1]:2f} +/- {pcov[1][1]:.2f}")
     
     def plot_multiple_plots(self, n, *args: dict): #plots multiple graphs on the same figure
+        assert len(args) == n, "Number of arguments must equal number of graphs to be plotted"
+        
         rows = int(np.ceil(n/np.ceil(np.sqrt(n))))
         columns = int(np.ceil(np.sqrt(n)))
 
@@ -95,24 +98,29 @@ class Plotter():
                 writer.grab_frame() #saves the frame
 
 
-    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims): # plots multiple graphs on the same plot
+    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
+        assert len(args) == len(labels), "Number of arguments must equal number of graphs to be plotted"
+
         ax = self.fig.add_subplot(111)
-        for arg in args:
+        for i in range(len(args)):
             ax.plot(
-                arg.keys(),
-                arg.values(),
+                args[i].keys(),
+                args[i].values(),
                 ls=ls,
                 marker=marker,
                 markersize=4,
-                color='#%06X' % random.randint(0, 0xFFFFFF)
+                color='#%06X' % random.randint(0, 0xFFFFFF),
+                label=labels[i]
             )
         
             if best_fit:
-                self.plot_best_fit(arg.keys(), arg.values())
+                self.plot_best_fit(args[i].keys(), args[i].values())
 
         ax.set_xlim(xlims)
         ax.set_ylim(ylims)
         ax.set_xlabel(self.xlabel)
         ax.set_ylabel(self.ylabel)
+        ax.legend()
 
+        self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
