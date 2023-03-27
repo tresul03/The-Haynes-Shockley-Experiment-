@@ -42,4 +42,4 @@ class Brains():
 
     def plot_dopant_mobility_graphs(self):
         plotter = Plotter(self.dopant_mobility.xlabel, self.dopant_mobility.ylabel, "mobility")
-        plotter.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(150, 400), ylims=(0, 2e3), marker="None", ls="-")
+        plotter.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-")
