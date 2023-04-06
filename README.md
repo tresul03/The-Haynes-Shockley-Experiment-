@@ -108,3 +108,5 @@ In seeing both of these properties in the simulation, however, we notice a limit
 
 We can still view the effects of drift and decay across time on one system analyitcally, though:
 
+![decay-static](https://user-images.githubusercontent.com/102374376/230396225-9cdbabb9-4a33-4421-b8c6-0d3e024f05ad.png)
+
