@@ -100,3 +100,11 @@ I'll explain these concepts further, but perhaps I should demonstrate what I mea
 
 ![random-multiple](https://user-images.githubusercontent.com/102374376/230269761-6c6b0a62-241a-4d78-b9dc-cb5aacae6f47.png)
 
+Here we observe five different systems, each having a different probability of moving towards the right. This probability is also equivalent to their probability of decay. As expected, the higher the probability of moving towards the right, the more shifted towards the right each system becomes. Physically, it means that the particles in the system have a greater drft velocity, implying that the electric field inducing this $v$ is also larger. Therefore, the greater the probability of moving right, the larger the voltage applied across the semiconductor.
+
+We also notice that the higher the probability of decay of a system, the lower the peak of that system becomes. It implies that the lifetimes of the particles within the system are shorter with an increased probaiblity of decay. It is for this reason that I have not plotted a Gaussian best fit curve to these systems. Gaussian distributions are normalised, even as functions of time, so when particles are removed from the system, it reamins a Gaussian no longer.
+
+In seeing both of these properties in the simulation, however, we notice a limitation of using the random-walk algorithm. The simulation displays the frequency of the final positions reached by each particle, rendering it impossible to view their live motion at constant velocity. A simulation consisting of five systems, all with the same probability of drift, but different probabilities of decay, will have the same range of final positions reached, but at lower frequencies for each system with a higher decay probability. The effects of drift, therefore, would not be observed, so in order to observe both drift and decay, each system's drift probabilities are different.
+
+We can still view the effects of drift and decay across time on one system analyitcally, though:
+
