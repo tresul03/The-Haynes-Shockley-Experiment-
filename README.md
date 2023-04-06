@@ -36,6 +36,10 @@ Note: this animation can be found in videos/diffusion.mp4.
 
 The animation above shows an initial peak at $x, t, = 0$, corresponding to the point of charge injection into the semiconductor. The charge carriers then spread out acorss both x-directions, lowering the peak and widening the curve. Note that in this case, since the Gaussian represents a probability distribution across the length of the semiconductor, and the number of MCCs within the semiconductor remains constant, the area under this distribution also remains constant. This is why the lowering and broadening of the distribution's peak is observed.
 
+[colourmap](https://github.com/tresul03/The-Haynes-Shockley-Experiment-/blob/5d29f3bd442d85b482de684c49c38c1f1564597f/plots/test.pdf)
+
+Above is another visualisation of the equation using a colourmap. A two dimensional grid, coordinates $x, t$, is formed, and each coordinate is coloured depending on the output of the diffusion equation at those coordinates.
+
 ## Simulation Technique: The Random-Walk Algorithm
 
 We have seen, now, an expectation of the MCCs' motion by means of visualising the diffusion equation, but the challenge of actually simulating such an event remains. For this, let us consider the random-walk algorithm.
@@ -110,3 +114,4 @@ We can still view the effects of drift and decay across time on one system analy
 
 ![decay-static](https://user-images.githubusercontent.com/102374376/230396225-9cdbabb9-4a33-4421-b8c6-0d3e024f05ad.png)
 
+As shown above, a very slight drift can be observed theoretically. The drift being very gradual is due to the carrier lifetime of the MCCs. A near complete decay of the system is expected to occur within $100\mu s$, so not much drift can occur, except under extremely high voltages.
