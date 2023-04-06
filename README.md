@@ -74,8 +74,7 @@ $P(x, t) = A(t)e^{-\frac{(x-vt)^{2}}{4Dt}}$.
 
 Visualising this equation across time, we get:
 
-
-
+https://user-images.githubusercontent.com/102374376/230268308-19da0f77-2418-4a13-bbb4-222c683b98f3.mp4
 
 but there is one more property that the simulation does not yet account for.
 
