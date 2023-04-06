@@ -5,6 +5,3 @@ if __name__ == "__main__":
     brains.plot_dopant_mobility_graphs() 
     brains.plot_random_walk_graphs() 
     brains.plot_diffusion_videos()
-
-
-#todo: make sloan's colourmap, but animated
