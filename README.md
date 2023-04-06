@@ -98,3 +98,5 @@ Further, we can introduce a probability of decay, where each particle has a non-
 
 I'll explain these concepts further, but perhaps I should demonstrate what I mean by means of displaying the improved simulation first:
 
+![random-multiple](https://user-images.githubusercontent.com/102374376/230269761-6c6b0a62-241a-4d78-b9dc-cb5aacae6f47.png)
+
