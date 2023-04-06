@@ -6,7 +6,7 @@ from diffusion import Diffusion
 
 class RandomWalk():
     def __init__(self):
-        self.xlabel = "Displacement / m"
+        self.xlabel = "Displacement / $\mu$m"
         self.ylabel = "Frequency"
         self.values = Values() #initialises values
         self.xlist = np.linspace(-1, 1, 500000)
