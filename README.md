@@ -86,8 +86,7 @@ $P(x, t) = A(t) e^{-\frac{(x-vt)^{2}}{4Dt}} e^{-\frac{t}{\tau_{F}}}$,
 
 which looks like this:
 
-
-
+[decay](https://user-images.githubusercontent.com/102374376/230268628-0a113ab1-6e9d-419d-9f95-5dbf92b53511.mp4)
 
 ## The Complete Simulation
 
