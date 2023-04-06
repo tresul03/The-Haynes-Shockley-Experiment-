@@ -22,12 +22,12 @@ class Plotter():
             ls=ls,
             marker=marker,
             markersize=4,
-            color='#%06X' % random.randint(0, 0xFFFFFF), #random colour
+            color='#%06X' % random.randint(0, 0xFFFFFF),
             label=label
         )
 
-        if best_fit:
-            self.plot_best_fit(xlist, ylist)
+        if best_fit != False:
+            self.plot_best_fit(ax, xlist, ylist, best_fit)
 
         ax.set_xlabel(self.xlabel)
         ax.set_ylabel(self.ylabel)
@@ -37,21 +37,33 @@ class Plotter():
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
 
-    def plot_best_fit(self, xlist, ylist): #plots a best fit line on a graph
-        linear = lambda m,x,c: m*x+c
-        popt, pcov = curve_fit(linear, xlist, ylist)
 
-        plt.plot(
+    def plot_best_fit(self, ax, xlist, ylist, type): #plots a best fit line on a graph
+        #convert xlist and ylist to lists to avoid error
+        xlist = np.array(list(xlist))
+        ylist = np.array(list(ylist))
+
+        match type.lower():
+            case "linear":
+                func = lambda x, m, c: m*x + c
+            
+            case "exponential":
+                func = lambda x, a, b, c: a*np.exp(-b*(x**2))+c
+        
+            case _:
+                raise ValueError("Invalid type of best fit line")
+
+        popt, pcov = curve_fit(func, xlist, ylist)
+
+        ax.plot(
             xlist,
-            popt[0]*xlist + popt[1],
+            func(xlist, *popt),
             ls='--',
-            color='#%06X' % random.randint(0, 0xFFFFFF)
+            color=self.values.color
         )
 
-        print(f"Gradient = {popt[0]:.2f} +/- {pcov[0][0]:.2f}")
-        print(f"Intercept = {popt[1]:2f} +/- {pcov[1][1]:.2f}")
-    
-    def plot_multiple_plots(self, n, *args: dict): #plots multiple graphs on the same figure
+
+    def plot_multiple_plots(self, n, *args: dict, best_fit=False): #plots multiple graphs on the same figure
         assert len(args) == n, "Number of arguments must equal number of graphs to be plotted"
         
         rows = int(np.ceil(n/np.ceil(np.sqrt(n))))
@@ -68,8 +80,39 @@ class Plotter():
                 color='#%06X' % random.randint(0, 0xFFFFFF)
             )
 
+            if best_fit != False:
+                self.plot_best_fit(ax, arg.keys(), arg.values(), best_fit)
+
             ax.set_xlabel(self.xlabel)
             ax.set_ylabel(self.ylabel)
+
+        self.fig.tight_layout()
+        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
+
+
+    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
+        assert len(args) == len(labels), "Number of arguments must equal number of graphs to be plotted"
+
+        ax = self.fig.add_subplot(111)
+        for i in range(len(args)):
+            ax.plot(
+                args[i].keys(),
+                args[i].values(),
+                ls=ls,
+                marker=marker,
+                markersize=4,
+                color='#%06X' % random.randint(0, 0xFFFFFF),
+                label=labels[i]
+            )
+        
+            if best_fit != False:
+                self.plot_best_fit(ax, args[i].keys(), args[i].values(), best_fit)
+
+        ax.set_xlim(xlims)
+        ax.set_ylim(ylims)
+        ax.set_xlabel(self.xlabel)
+        ax.set_ylabel(self.ylabel)
+        ax.legend(loc=1,fontsize=12)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
@@ -97,30 +140,3 @@ class Plotter():
                 l.set_data(xlist, ylist) #updates the plot
                 writer.grab_frame() #saves the frame
 
-
-    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
-        assert len(args) == len(labels), "Number of arguments must equal number of graphs to be plotted"
-
-        ax = self.fig.add_subplot(111)
-        for i in range(len(args)):
-            ax.plot(
-                args[i].keys(),
-                args[i].values(),
-                ls=ls,
-                marker=marker,
-                markersize=4,
-                color='#%06X' % random.randint(0, 0xFFFFFF),
-                label=labels[i]
-            )
-        
-            if best_fit:
-                self.plot_best_fit(args[i].keys(), args[i].values())
-
-        ax.set_xlim(xlims)
-        ax.set_ylim(ylims)
-        ax.set_xlabel(self.xlabel)
-        ax.set_ylabel(self.ylabel)
-        ax.legend()
-
-        self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
