@@ -94,5 +94,7 @@ Now that we have a complete understadning of the MCCs' motion, we can refine the
 
 Up until now, the probability of a particle travelling in either x-direction has been equal upon each coin toss. If that probability were skewed, then the final position of each particle would be alligned towards a certain direction. Since $v$ is in the positive x-direction, we can increase the probability of the particle moving towards the right in the simulation.
 
-Further, we can introduce a probability of decay, where each particle has a non-zero chance of being remvoed from the system. Note that by "system", I mean a distribution produced by a random-walk simulation.
+Further, we can introduce a probability of decay, where each particle has a non-zero chance of being removed from the system. Note that by "system", I mean a distribution produced by a random-walk simulation.
+
+I'll explain these concepts further, but perhaps I should demonstrate what I mean by means of displaying the improved simulation first:
 
