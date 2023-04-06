@@ -30,7 +30,7 @@ where $\tau_{F}$ and $m$ are the carrier lifetime (more on this later) and mass 
 
 Now that our choice of modelling is justified, let us see what the motion of these minoirty charge carriers should look like:
 
-![diffusion](https://user-images.githubusercontent.com/102374376/226909400-230ca4e8-aa51-4044-b80e-1f2a0e5b17b2.mp4)
+[diffusion](https://user-images.githubusercontent.com/102374376/226909400-230ca4e8-aa51-4044-b80e-1f2a0e5b17b2.mp4)
 
 Note: this animation can be found in videos/diffusion.mp4.
 
@@ -70,10 +70,29 @@ We will assume that:
 
 Theoretically, the diffusion equation now becomes,
 
-$P(x, t) = A(t)e^{-\frac{(x-vt)^{2}}{4Dt}}$,
+$P(x, t) = A(t)e^{-\frac{(x-vt)^{2}}{4Dt}}$.
+
+Visualising this equation across time, we get:
+
+
+
 
 but there is one more property that the simulation does not yet account for.
 
-## Decay
+### Decay
 
-Over time, the MCCs in the semiconductor will recombine with the opposite charges in the semiconductor as they drift across it. This leads to an exponential decrease in the number of MCCs across time. The rate of this exponential decay is dependent on the MCCs' average lifetime: their carrier lifetime, $\tau_{F}$.
+Over time, the MCCs in the semiconductor will recombine with the opposite charges in the semiconductor as they drift across it. This leads to an exponential decrease in the number of MCCs across time. The rate of this exponential decay is dependent on the MCCs' average lifetime: their carrier lifetime, $\tau_{F}$. The decay is modelled as $e^{-\frac{t}{\tau_{F}}}$, so modifying the diffusion equation gives the final probability density distribution as
+
+$P(x, t) = A(t) e^{-\frac{(x-vt)^{2}}{4Dt}} e^{-\frac{t}{\tau_{F}}}$.
+
+
+
+
+## The Complete Simulation
+
+Now that we have a complete understadning of the MCCs' motion, we can refine the simulation produced by the random-walk algorithm.
+
+Up until now, the probability of a particle travelling in either x-direction has been equal upon each coin toss. If that probability were skewed, then the final position of each particle would be alligned towards a certain direction. Since $v$ is in the positive x-direction, we can increase the probability of the particle moving towards the right in the simulation.
+
+Further, we can introduce a probability of decay, where each particle has a non-zero chance of being remvoed from the system. Note that by "system", I mean a distribution produced by a random-walk simulation.
+
