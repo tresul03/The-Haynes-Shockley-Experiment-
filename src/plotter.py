@@ -35,7 +35,7 @@ class Plotter():
         ax.set_ylim(ylims)
 
         self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
+        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
     def plot_best_fit(self, ax, xlist, ylist, type): #plots a best fit line on a graph
@@ -59,7 +59,7 @@ class Plotter():
             xlist,
             func(xlist, *popt),
             ls='--',
-            color=self.values.color
+            color='#%06X' % random.randint(0, 0xFFFFFF)
         )
 
 
@@ -87,7 +87,7 @@ class Plotter():
             ax.set_ylabel(self.ylabel)
 
         self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
+        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
     def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
@@ -115,7 +115,7 @@ class Plotter():
         ax.legend(loc=1,fontsize=12)
 
         self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.pdf", dpi=350)
+        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
     def animate(self, xlist, func, time, xlims, ylims): # xlist is the x-axis, func is the function to be animated, time is the time to animate over
