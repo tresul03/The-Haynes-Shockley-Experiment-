@@ -50,4 +50,5 @@ By plotting the freuquency of each displacement against the displacement itself,
 
 You may realise that the properties of this random-walk distribution mirror that of a Gaussian. What this means is that the random-walk algorithm can effectively simulate the diffusion of minoirty charge carriers in a one-dimensional semiconductor. To further prove my point, I will plot an exponential best-fit curve to the random-walk distribution:
 
-[random.pdf](https://github.com/tresul03/The-Haynes-Shockley-Experiment-/files/11165727/random.pdf)
+![random](https://user-images.githubusercontent.com/102374376/230256953-c3636941-6a23-4906-9922-737db680612b.png)
+
