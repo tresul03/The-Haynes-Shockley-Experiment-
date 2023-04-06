@@ -135,7 +135,7 @@ class Plotter():
                     case 0:
                         ylist = xlist * 0
                     case _:
-                        ylist = func(xlist, tval)
+                        ylist = func(xlist, tval) / max(func(xlist, np.linspace(0, time, 1000)[1])) #normalises the function
 
                 l.set_data(xlist, ylist) #updates the plot
                 writer.grab_frame() #saves the frame

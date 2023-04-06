@@ -14,15 +14,15 @@ class Brains():
     def plot_diffusion_videos(self): #plots diffusion videos
         diffusion = Diffusion() #plots diffusion
         plotter_diffusion = Plotter(diffusion.xlabel, diffusion.ylabel, "diffusion")
-        plotter_diffusion.animate(diffusion.xlist, diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 20))
+        plotter_diffusion.animate(diffusion.xlist, diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 1))
 
         drift = Diffusion() #plots diffusion with drift
         plotter_drift = Plotter(drift.xlabel, drift.ylabel, "drift")
-        plotter_drift.animate(drift.xlist, drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 50))
+        plotter_drift.animate(drift.xlist, drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 1))
 
         decay = Diffusion() #plots diffusion with drift and decay
         plotter_decay = Plotter(decay.xlabel, decay.ylabel, "decay")
-        plotter_decay.animate(decay.xlist, decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 20))
+        plotter_decay.animate(decay.xlist, decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 1))
 
 
     def plot_random_walk_graphs(self):
