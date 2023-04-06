@@ -1,6 +1,8 @@
 # The-Haynes-Shockley-Experiment
 
-This is a group project that, as of 6/4/23, I am working on with my group. The aim of this project is to understand the motion of minority charge carriers (MCCs) in locally p-type silicon semiconductors. I am the computational physicist in this project; I produce simulations on what our results should look like.
+The aim of this project is to understand the motion of minority charge carriers (MCCs) in locally p-type silicon semiconductors. I am the computational physicist in this project; I produce simulations on what our results should look like.
+
+This REAMDE.md should provide a basic understanding of the motions of MCCs in one-dimensional semiconductors. I will not go into full derivations of the equations used. Rather, I will explain my approach used in deciding how to simulate the expeirment, and the limitations of the simulations themselves.
 
 ## Background
 
