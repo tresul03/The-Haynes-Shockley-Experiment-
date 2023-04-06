@@ -31,15 +31,22 @@ class Brains():
         plotter3 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "decay-static") #plotter for decay at set times
 
         dict1 = self.randomer.random_walk(50)
-        dict2 = self.randomer.diffusion()
-        dict3 = [self.randomer.random_walk(i) for i in range(0, 50, 10)]
+        dict3 = [self.randomer.random_walk(i, i) for i in range(50, 100, 10)]
         dict4 = [dict(zip(self.randomer.xlist, self.diffusion.diffusion_decay_1d(self.randomer.xlist, tval))) for tval in self.randomer.tlist]
 
-        plotter.plot_multiple_plots(2, dict1, dict2) #plots random walk and diffusion
-        plotter2.plot_multiple_graphs(*dict3, xlims=(0, 1500), ylims=(0, 1000), labels=[f"P = {i / 100}" for i in range(0, 50, 10)]) #plots random walk at different probabilities
-        plotter3.plot_multiple_graphs(*dict4, xlims=(-0.0025, 0.0025), ylims=(0, 20), marker="None", ls="-", labels=[f"t = {tval*1e6:.1f}$\mu$s" for tval in self.randomer.tlist]) #plots decay at set times
+        dict1_max = max(dict1.values())
+        dict4_max = max([max(dict4[i].values()) for i in range(len(dict4))])
+
+        dict1 = dict(zip(dict1.keys(), [dict1[i] / dict1_max for i in dict1.keys()]))
+        dict4 = [dict(zip(dict4[i].keys(), [dict4[i][j] / dict4_max for j in dict4[i].keys()])) for i in range(len(dict4))]
+
+        plotter.plot_multiple_plots(1, dict1, best_fit="exponential") #plots random walk and diffusion
+        plotter2.plot_multiple_graphs(*dict3, xlims=(-100, 1500), ylims=(0, 150), labels=[f"P(right) = P(decay) = {i / 100}" for i in range(50, 100, 10)]) #plots random walk at different probabilities of drift and decay
+        plotter3.plot_multiple_graphs(*dict4, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", labels=[f"t = {tval*1e6:.1f}$\mu$s" for tval in self.randomer.tlist]) #plots decay at set times
 
 
     def plot_dopant_mobility_graphs(self):
         plotter = Plotter(self.dopant_mobility.xlabel, self.dopant_mobility.ylabel, "mobility")
         plotter.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-")
+
+    
