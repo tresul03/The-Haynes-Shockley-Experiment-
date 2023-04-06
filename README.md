@@ -74,7 +74,7 @@ $P(x, t) = A(t)e^{-\frac{(x-vt)^{2}}{4Dt}}$.
 
 Visualising this equation across time, we get:
 
-https://user-images.githubusercontent.com/102374376/230268308-19da0f77-2418-4a13-bbb4-222c683b98f3.mp4
+[drift](https://user-images.githubusercontent.com/102374376/230268308-19da0f77-2418-4a13-bbb4-222c683b98f3.mp4)
 
 but there is one more property that the simulation does not yet account for.
 
@@ -82,7 +82,9 @@ but there is one more property that the simulation does not yet account for.
 
 Over time, the MCCs in the semiconductor will recombine with the opposite charges in the semiconductor as they drift across it. This leads to an exponential decrease in the number of MCCs across time. The rate of this exponential decay is dependent on the MCCs' average lifetime: their carrier lifetime, $\tau_{F}$. The decay is modelled as $e^{-\frac{t}{\tau_{F}}}$, so modifying the diffusion equation gives the final probability density distribution as
 
-$P(x, t) = A(t) e^{-\frac{(x-vt)^{2}}{4Dt}} e^{-\frac{t}{\tau_{F}}}$.
+$P(x, t) = A(t) e^{-\frac{(x-vt)^{2}}{4Dt}} e^{-\frac{t}{\tau_{F}}}$,
+
+which looks like this:
 
 
 
