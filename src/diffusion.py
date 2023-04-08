@@ -4,7 +4,7 @@ from plotter import Plotter
 
 class Diffusion():
     def __init__(self):
-        self.xlabel = "Displacement / m"
+        self.xlabel = "Displacement / $\mu$m"
         self.ylabel = "Charge Carrier Concentration / $n_{0}$"
         self.xlist = np.linspace(-1, 1, 50001)
         self.values = Values()
