@@ -227,7 +227,7 @@ class Plotter():
         ax.set_ylim(ylims)
         ax.set_xlabel(self.xlabel)
         ax.set_ylabel(self.ylabel)
-        ax.legend(loc=1,fontsize=12)
+        ax.legend(loc=1)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)

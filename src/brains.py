@@ -110,7 +110,7 @@ class Brains():
         Plots the graphs.
         """
 
-        self.dopant_mobility.plot_graph(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-")
+        self.dopant_mobility.plot_graph(dict(zip(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list))), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-", labels=["Mobility"])
         
         list_steps = [i for i in range(200, 2001, 400)]
         dict1 = self.normalise_dict(self.random.random_walk(1000, 50))
