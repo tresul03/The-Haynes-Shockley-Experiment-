@@ -7,13 +7,13 @@ plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
 plt.rcParams['font.size'] = 17
 
 class Plotter():
-    def __init__(self, xlabel: str, ylabel: str, figname: str): #initialises plotter
-        self.xlabel = xlabel        #label of x-axis
-        self.ylabel = ylabel        #label of y-axis
-        self.figname = figname      #name of plot
-        self.fig = plt.figure(figsize=(10, 7))     #initialising figure
-        self.hex_const = "#%06X"
-        self.color = self.hex_const % random.randint(0, 0xFFFFFF)
+    def __init__(self, xlabel: str, ylabel: str, figname: str):         #initialises plotter
+        self.xlabel = xlabel                                            #label of x-axis
+        self.ylabel = ylabel                                            #label of y-axis
+        self.figname = figname                                          #name of plot
+        self.fig = plt.figure(figsize=(10, 7))                          #initialising figure
+        self.hex_const = "#%06X"                                        #hexadecimal constant
+        self.color = self.hex_const % random.randint(0, 0xFFFFFF)       #random colour for graph
 
 
     def generate_random_color(self, color1):
@@ -154,14 +154,15 @@ class Plotter():
     def animate(self, xlist, func, time, xlims, ylims): # xlist is the x-axis, func is the function to be animated, time is the time to animate over
         metadata = dict(title="Diffusion", artist="Resul Teymuroglu")
         writer = FFMpegWriter(fps=100, metadata=metadata)
-        l, = plt.plot([], [], ls="-", color="red")
+        ax = self.fig.add_subplot(111)
+        l, = ax.plot([], [], ls="-", color="red")
 
         with writer.saving(self.fig, f"videos/{self.figname}.mp4", 100):
             for tval in np.linspace(0, time, 1000):
-                plt.xlim(xlims)
-                plt.ylim(ylims)
-                plt.xlabel(self.xlabel)
-                plt.ylabel(self.ylabel)
+                ax.set_xlim(xlims)
+                ax.set_ylim(ylims)
+                ax.set_xlabel(self.xlabel)
+                ax.set_ylabel(self.ylabel)
 
                 ylist = np.array([])
                 match tval:
@@ -172,4 +173,3 @@ class Plotter():
 
                 l.set_data(xlist, ylist) #updates the plot
                 writer.grab_frame() #saves the frame
-

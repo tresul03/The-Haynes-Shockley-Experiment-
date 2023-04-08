@@ -1,14 +1,18 @@
 import numpy as np
 import random
 from values import Values
+from plotter import Plotter
 
-class RandomWalk():
-    def __init__(self):
+class RandomWalk(Plotter):
+    def __init__(self, figname):
         self.xlabel = "Displacement / $\mu$m"
         self.ylabel = "Frequency"
-        self.values = Values() #initialises values
         self.xlist = np.linspace(-1, 1, 500000)
         self.tlist = np.linspace(0.4e-4, 1e-4, 15) 
+        self.values = Values()
+
+        super().__init__(self.xlabel, self.ylabel, figname)
+
 
     def random_walk(self, steps, skew_point: int, decay_prob=0) -> dict: #skew_point is the probability of moving right, decay_prob is the probability of decay
         walker = 0 #initial particle position
@@ -27,7 +31,6 @@ class RandomWalk():
 
             walker = 0 #resets position for next particle
         
-        # print(len(positions))
         dict_positions = {} #dictionary of positions and number of particles at that position
         for i in range(min(positions), max(positions)+1):
             if positions.count(i) > 0:
@@ -35,10 +38,10 @@ class RandomWalk():
 
         return dict_positions
 
+
     def diffusion(self) -> dict:
         diffusion_1d = lambda x: np.exp(-x**2 / (4*self.values.D)) #diffusion equation
         keys = np.linspace(-1, 1, 1001)
         values = diffusion_1d(keys)
 
         return dict(zip(keys, values))
-
