@@ -7,7 +7,6 @@ class Values:
         self.T = 300             #Temperature
         self.Q = 1.6e-19         #Electron Charge
         self.TAU = 10e-6         #Charge Carrier Lifetime
-        self.CARRIER_CONC = 1e14 #Charge Carrier Concentration
         self.v = (self.MOBILITY * self.VOLTAGE) / self.BARLENGTH    #Charge Carrier Drift Velocity
         self.D = (self.MOBILITY*self.K*self.T)/self.Q               #Diffusion Constant
 
