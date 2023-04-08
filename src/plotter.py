@@ -12,6 +12,8 @@ class Plotter():
         self.ylabel = ylabel        #label of y-axis
         self.figname = figname      #name of plot
         self.fig = plt.figure(figsize=(10, 7))     #initialising figure
+        self.hex_const = "#%06X"
+        self.color = self.hex_const % random.randint(0, 0xFFFFFF)
 
 
     def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False): #plots a graph
@@ -22,7 +24,7 @@ class Plotter():
             ls=ls,
             marker=marker,
             markersize=4,
-            color='#%06X' % random.randint(0, 0xFFFFFF),
+            color=self.color,
             label=label
         )
 
@@ -36,6 +38,31 @@ class Plotter():
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
+
+    def generate_random_color(self, color1):
+        """
+        Generates a random colour with a contrast ratio > 3.
+        """
+
+        color2 = '#%06X' % random.randint(0, 0xFFFFFF)
+
+        # Convert hex color values to RGB values
+        r1, g1, b1 = tuple(int(color1.strip('#')[i:i+2], 16) for i in (0, 2, 4))
+        r2, g2, b2 = tuple(int(color2.strip('#')[i:i+2], 16) for i in (0, 2, 4))
+        
+        # Calculate the luminance of each color using the formula from the W3C's
+        # Web Content Accessibility Guidelines (WCAG)
+        L1 = 0.2126 * r1 + 0.7152 * g1 + 0.0722 * b1
+        L2 = 0.2126 * r2 + 0.7152 * g2 + 0.0722 * b2
+        
+        # Calculate the contrast ratio using the formula from the WCAG
+        if L1 > L2:
+            ratio = (L1 + 0.05) / (L2 + 0.05)
+        else:
+            ratio = (L2 + 0.05) / (L1 + 0.05)
+
+        return color2 if ratio > 3 else self.generate_random_color(color1)
+
 
 
     def plot_best_fit(self, ax, xlist, ylist, type): #plots a best fit line on a graph
@@ -53,13 +80,13 @@ class Plotter():
             case _:
                 raise ValueError("Invalid type of best fit line")
 
-        popt, pcov = curve_fit(func, xlist, ylist)
+        popt = curve_fit(func, xlist, ylist)[0]
 
         ax.plot(
             xlist,
             func(xlist, *popt),
             ls='--',
-            color='#%06X' % random.randint(0, 0xFFFFFF)
+            color=self.generate_random_color(self.color)
         )
 
 
@@ -77,7 +104,7 @@ class Plotter():
                 ls="None",
                 marker='x',
                 markersize=4,
-                color='#%06X' % random.randint(0, 0xFFFFFF)
+                color=self.color
             )
 
             if best_fit != False:
@@ -85,6 +112,9 @@ class Plotter():
 
             ax.set_xlabel(self.xlabel)
             ax.set_ylabel(self.ylabel)
+
+            # Generate a random color that has a contrast ratio of at least 3
+            self.color = self.generate_random_color(self.color)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
@@ -101,12 +131,15 @@ class Plotter():
                 ls=ls,
                 marker=marker,
                 markersize=4,
-                color='#%06X' % random.randint(0, 0xFFFFFF),
+                color=self.color,
                 label=labels[i]
             )
         
             if best_fit != False:
                 self.plot_best_fit(ax, args[i].keys(), args[i].values(), best_fit)
+
+            # Generate a random color that has a contrast ratio of at least 3
+            self.color = self.generate_random_color(self.color)
 
         ax.set_xlim(xlims)
         ax.set_ylim(ylims)
