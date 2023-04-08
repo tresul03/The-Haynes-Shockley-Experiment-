@@ -3,4 +3,4 @@ from brains import Brains
 if __name__ == "__main__":
     brains = Brains()
     brains.plot_graphs() 
-    brains.plot_videos()
+    brains.produce_videos()

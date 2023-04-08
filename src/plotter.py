@@ -1,3 +1,7 @@
+# Author: Resul Teymuroglu
+# Date: 8/4/2023
+# Description: This file contains the Plotter class, which prodcues plots, animations, and other types of figures the user requests for in the Brains class.
+
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -7,7 +11,34 @@ plt.rcParams["animation.ffmpeg_path"] = "C:\\ffmpeg\\bin\\ffmpeg.exe"
 plt.rcParams['font.size'] = 17
 
 class Plotter():
-    def __init__(self, xlabel: str, ylabel: str, figname: str):         #initialises plotter
+    def __init__(self, xlabel: str, ylabel: str, figname: str):
+        """
+        Parameters:
+        -----------
+        xlabel : str
+            The label of the x-axis.
+        ylabel : str
+            The label of the y-axis.
+        figname : str
+            The name of the plot.
+            
+        Attributes:
+        -----------
+        xlabel : str
+            The label of the x-axis.
+        ylabel : str
+            The label of the y-axis.
+        figname : str
+            The name of the plot.
+        fig : matplotlib.figure.Figure
+            The figure object.
+        hex_const : str
+            The hexadecimal constant.
+        color : str
+            The color of the plot.
+
+        """
+
         self.xlabel = xlabel                                            #label of x-axis
         self.ylabel = ylabel                                            #label of y-axis
         self.figname = figname                                          #name of plot
@@ -18,9 +49,21 @@ class Plotter():
 
     def generate_random_color(self, color1):
         """
-        Generates a random colour with a contrast ratio > 3.
+        Generates a random color that has a contrast ratio of at least 3 with
+        the color passed as an argument.
+
+        Parameters:
+        -----------
+        color1 : str
+            The color to compare the generated color to.
+
+        Returns:
+        --------
+        color2 : str
+            The generated color.
         """
 
+        # Generate a random hex color value
         color2 = '#%06X' % random.randint(0, 0xFFFFFF)
 
         # Convert hex color values to RGB values
@@ -38,34 +81,26 @@ class Plotter():
         else:
             ratio = (L2 + 0.05) / (L1 + 0.05)
 
+        # If the contrast ratio is less than 3, generate a new color
         return color2 if ratio > 3 else self.generate_random_color(color1)
 
 
-    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False): #plots a graph
-        ax = self.fig.add_subplot(111)
-        ax.plot(
-            xlist,
-            ylist,
-            ls=ls,
-            marker=marker,
-            markersize=4,
-            color=self.color,
-            label=label
-        )
+    def plot_best_fit(self, ax, xlist, ylist, type):
+        """
+        Plots a best fit line on the given axis.
 
-        if best_fit != False:
-            self.plot_best_fit(ax, xlist, ylist, best_fit)
+        Parameters:
+        -----------
+        ax : matplotlib.axes._subplots.AxesSubplot
+            The axis to plot the best fit line on.
+        xlist : list
+            The list of x values.
+        ylist : list
+            The list of y values.
+        type : str
+            The type of best fit line to be plotted. The options are "linear" and "exponential".
+        """
 
-        ax.set_xlabel(self.xlabel)
-        ax.set_ylabel(self.ylabel)
-        ax.set_xlim(xlims)
-        ax.set_ylim(ylims)
-
-        self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
-
-
-    def plot_best_fit(self, ax, xlist, ylist, type): #plots a best fit line on a graph
         #convert xlist and ylist to lists to avoid error
         xlist = np.array(list(xlist))
         ylist = np.array(list(ylist))
@@ -91,6 +126,25 @@ class Plotter():
 
 
     def plot_multiple_plots(self, n, *args: dict, best_fit=False): #plots multiple graphs on the same figure
+        """
+        Plots multiple graphs on the same figure with the given data and optional best-fit lines.
+
+        Parameters:
+        -----------
+        n : int
+            The number of graphs to be plotted.
+        *args : dict
+            The dictionary arguments containing the x and y values of each plot.
+        best_fit : str, optional
+            The type of best fit line to be plotted. The options are "linear" and "exponential". If False, no best-fit line will be plotted. Default is False.
+        
+        Raises:
+        -------
+        AssertionError
+            If the number of arguments is not equal to the number of graphs to be plotted.
+
+        """
+
         assert len(args) == n, "Number of arguments must equal number of graphs to be plotted"
         
         rows = int(np.ceil(n/np.ceil(np.sqrt(n))))
@@ -120,7 +174,35 @@ class Plotter():
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
-    def plot_multiple_graphs(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
+    def plot_graph(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
+        """
+        Plots multiple graphs on the same plot with the given data and optional best-fit lines.
+
+        Parameters:
+        -----------
+        *args : dict
+            The dictionary arguments containing the x and y values of each plot.
+        best_fit : str, optional
+            The type of best-fit line to be plotted. The options are "linear" and "exponential". 
+            If False, no best-fit line will be plotted. Default is False.
+        ls : str, optional
+            The line style of the plot. Default is "None".
+        marker : str, optional
+            The marker style of the plot. Default is "x".
+        xlims : tuple
+            A tuple of the lower and upper limits of the x-axis.
+        ylims : tuple
+            A tuple of the lower and upper limits of the y-axis.
+        labels : list
+            A list of strings that represents the labels for each plot.
+
+        Raises:
+        -------
+        AssertionError
+            If the number of arguments is not equal to the number of labels.
+
+        """
+
         assert len(args) == len(labels), "Number of arguments must equal number of graphs to be plotted"
 
         ax = self.fig.add_subplot(111)
@@ -152,6 +234,24 @@ class Plotter():
 
 
     def animate(self, xlist, func, time, xlims, ylims): # xlist is the x-axis, func is the function to be animated, time is the time to animate over
+        """
+        Animates a function over time with the given x and y data, total time to animate, and axis limits.
+
+        Parameters:
+        -----------
+        xlist : list or array
+            The x-values of the data to be plotted.
+        func : function
+            A function that takes x and t as inputs and returns y values.
+        time : float
+            The total time to animate the function over.
+        xlims : tuple
+            A tuple of the lower and upper limits of the x-axis.
+        ylims : tuple
+            A tuple of the lower and upper limits of the y-axis.
+
+        """
+
         metadata = dict(title="Diffusion", artist="Resul Teymuroglu")
         writer = FFMpegWriter(fps=100, metadata=metadata)
         ax = self.fig.add_subplot(111)
