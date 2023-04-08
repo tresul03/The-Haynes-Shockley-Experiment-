@@ -6,7 +6,6 @@ from dopant_mobility import DopantMobility
 
 class Brains():
     def __init__(self):
-        self.values = Values()
         self.randomer = RandomWalk()
         self.dopant_mobility = DopantMobility()
         self.diffusion = Diffusion()
@@ -30,19 +29,23 @@ class Brains():
         plotter2 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "random-multiple") #plotter for multiple random walks
         plotter3 = Plotter(self.randomer.xlabel, self.randomer.ylabel, "decay-static") #plotter for decay at set times
 
-        dict1 = self.randomer.random_walk(50)
-        dict3 = [self.randomer.random_walk(i, i) for i in range(50, 100, 10)]
-        dict4 = [dict(zip(self.randomer.xlist, self.diffusion.diffusion_decay_1d(self.randomer.xlist, tval))) for tval in self.randomer.tlist]
+        list_steps = [i for i in range(200, 2001, 400)]
+
+        dict1 = self.randomer.random_walk(1000, 50)
+        dict2 = [self.randomer.random_walk(i, 55, 50) for i in list_steps]
+        dict3 = [dict(zip(self.randomer.xlist, self.diffusion.diffusion_decay_1d(self.randomer.xlist, tval))) for tval in self.randomer.tlist]
 
         dict1_max = max(dict1.values())
-        dict4_max = max([max(dict4[i].values()) for i in range(len(dict4))])
+        dict2_max = max([max(dict2[i].values()) for i in range(len(dict2))])
+        dict3_max = max([max(dict3[i].values()) for i in range(len(dict3))])
 
         dict1 = dict(zip(dict1.keys(), [dict1[i] / dict1_max for i in dict1.keys()]))
-        dict4 = [dict(zip(dict4[i].keys(), [dict4[i][j] / dict4_max for j in dict4[i].keys()])) for i in range(len(dict4))]
+        dict2 = [dict(zip(dict2[i].keys(), [dict2[i][j] / dict2_max for j in dict2[i].keys()])) for i in range(len(dict2))]
+        dict3 = [dict(zip(dict3[i].keys(), [dict3[i][j] / dict3_max for j in dict3[i].keys()])) for i in range(len(dict3))]
 
         plotter.plot_multiple_plots(1, dict1, best_fit="exponential") #plots random walk and diffusion
-        plotter2.plot_multiple_graphs(*dict3, xlims=(-100, 1500), ylims=(0, 150), labels=[f"P(right) = P(decay) = {i / 100}" for i in range(50, 100, 10)]) #plots random walk at different probabilities of drift and decay
-        plotter3.plot_multiple_graphs(*dict4, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", labels=[f"t = {tval*1e6:.1f}$\mu$s" for tval in self.randomer.tlist]) #plots decay at set times
+        plotter2.plot_multiple_graphs(*dict2, xlims=(-200, 400), ylims=(0, 1), labels=[f"steps = {i}" for i in list_steps]) #plots random walk at different probabilities of drift and decay
+        plotter3.plot_multiple_graphs(*dict3, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", labels=[f"t = {tval*1e6:.1f}$\mu$s" for tval in self.randomer.tlist]) #plots decay at set times
 
 
     def plot_dopant_mobility_graphs(self):
