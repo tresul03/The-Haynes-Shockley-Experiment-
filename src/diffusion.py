@@ -1,6 +1,5 @@
 from values import Values
 import numpy as np
-from plotter import Plotter
 
 class Diffusion():
     def __init__(self):

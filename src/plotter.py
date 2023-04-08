@@ -16,29 +16,6 @@ class Plotter():
         self.color = self.hex_const % random.randint(0, 0xFFFFFF)
 
 
-    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False): #plots a graph
-        ax = self.fig.add_subplot(111)
-        ax.plot(
-            xlist,
-            ylist,
-            ls=ls,
-            marker=marker,
-            markersize=4,
-            color=self.color,
-            label=label
-        )
-
-        if best_fit != False:
-            self.plot_best_fit(ax, xlist, ylist, best_fit)
-
-        ax.set_xlabel(self.xlabel)
-        ax.set_ylabel(self.ylabel)
-        ax.set_xlim(xlims)
-        ax.set_ylim(ylims)
-
-        self.fig.tight_layout()
-        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
-
     def generate_random_color(self, color1):
         """
         Generates a random colour with a contrast ratio > 3.
@@ -63,6 +40,29 @@ class Plotter():
 
         return color2 if ratio > 3 else self.generate_random_color(color1)
 
+
+    def plot_graph(self, xlist, ylist, xlims, ylims, ls="None", marker='x', label=None, best_fit=False): #plots a graph
+        ax = self.fig.add_subplot(111)
+        ax.plot(
+            xlist,
+            ylist,
+            ls=ls,
+            marker=marker,
+            markersize=4,
+            color=self.color,
+            label=label
+        )
+
+        if best_fit != False:
+            self.plot_best_fit(ax, xlist, ylist, best_fit)
+
+        ax.set_xlabel(self.xlabel)
+        ax.set_ylabel(self.ylabel)
+        ax.set_xlim(xlims)
+        ax.set_ylim(ylims)
+
+        self.fig.tight_layout()
+        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
     def plot_best_fit(self, ax, xlist, ylist, type): #plots a best fit line on a graph

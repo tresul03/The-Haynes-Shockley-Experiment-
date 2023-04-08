@@ -1,5 +1,4 @@
 from diffusion import Diffusion
-from values import Values
 from plotter import Plotter
 from random_walk import RandomWalk
 from dopant_mobility import DopantMobility

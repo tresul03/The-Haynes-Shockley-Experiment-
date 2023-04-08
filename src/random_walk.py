@@ -1,8 +1,6 @@
 import numpy as np
 import random
-from plotter import Plotter
 from values import Values
-from diffusion import Diffusion
 
 class RandomWalk():
     def __init__(self):
