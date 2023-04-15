@@ -45,6 +45,7 @@ class Plotter():
         self.fig = plt.figure(figsize=(10, 7))                          #initialising figure
         self.hex_const = "#%06X"                                        #hexadecimal constant
         self.color = self.hex_const % random.randint(0, 0xFFFFFF)       #random colour for graph
+        self.ax = self.fig.add_subplot(111)
 
 
     def generate_random_color(self, color1):
@@ -85,7 +86,7 @@ class Plotter():
         return color2 if ratio > 3 else self.generate_random_color(color1)
 
 
-    def plot_best_fit(self, ax, xlist, ylist, type):
+    def plot_best_fit(self, ax, xlist, ylist, type, best_fit_label):
         """
         Plots a best fit line on the given axis.
 
@@ -108,10 +109,14 @@ class Plotter():
         match type.lower():
             case "linear":
                 func = lambda x, m, c: m*x + c
+
+            case "gaussian":
+                func = lambda x, a, b, c: a * np.exp(-((x-b)/c)**2)
             
-            case "exponential":
-                func = lambda x, a, b, c: a*np.exp(-b*(x**2))+c
-        
+            case "decay":
+                func = lambda x, t, a, b, c, d: a * np.exp(-((x-b)/c)**2) * np.exp(-t/d)
+
+
             case _:
                 raise ValueError("Invalid type of best fit line")
 
@@ -121,11 +126,12 @@ class Plotter():
             xlist,
             func(xlist, *popt),
             ls='--',
+            label=f"Best fit line ({type})" if best_fit_label else None,
             color=self.generate_random_color(self.color)
         )
 
 
-    def plot_multiple_plots(self, n, *args: dict, best_fit=False): #plots multiple graphs on the same figure
+    def plot_multiple_subplots(self, n, *args: dict, best_fit=False, best_fit_label=False): #plots multiple graphs on the same figure
         """
         Plots multiple graphs on the same figure with the given data and optional best-fit lines.
 
@@ -162,7 +168,7 @@ class Plotter():
             )
 
             if best_fit != False:
-                self.plot_best_fit(ax, arg.keys(), arg.values(), best_fit)
+                self.plot_best_fit(ax, arg.keys(), arg.values(), best_fit, best_fit_label)
 
             ax.set_xlabel(self.xlabel)
             ax.set_ylabel(self.ylabel)
@@ -174,7 +180,7 @@ class Plotter():
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
-    def plot_graph(self, *args: dict, best_fit=False, ls="None", marker='x', xlims, ylims, labels: list): # plots multiple graphs on the same plot
+    def plot_graph(self, *args: dict, labels:list=None, best_fit=False, ls="None", marker='x', xlims=None, ylims=None, best_fit_label=False): # plots multiple graphs on the same plot
         """
         Plots multiple graphs on the same plot with the given data and optional best-fit lines.
 
@@ -195,39 +201,33 @@ class Plotter():
             A tuple of the lower and upper limits of the y-axis.
         labels : list
             A list of strings that represents the labels for each plot.
-
-        Raises:
-        -------
-        AssertionError
-            If the number of arguments is not equal to the number of labels.
+        best_fit_label : bool
+            If True, the best-fit line will be labelled. Default is False.
 
         """
 
-        assert len(args) == len(labels), "Number of arguments must equal number of graphs to be plotted"
-
-        ax = self.fig.add_subplot(111)
         for i in range(len(args)):
-            ax.plot(
+            self.ax.plot(
                 args[i].keys(),
                 args[i].values(),
                 ls=ls,
                 marker=marker,
                 markersize=4,
                 color=self.color,
-                label=labels[i]
+                label=labels[i] if labels != None else None
             )
         
             if best_fit != False:
-                self.plot_best_fit(ax, args[i].keys(), args[i].values(), best_fit)
+                self.plot_best_fit(self.ax, args[i].keys(), args[i].values(), best_fit, best_fit_label)
 
             # Generate a random color that has a contrast ratio of at least 3
             self.color = self.generate_random_color(self.color)
 
-        ax.set_xlim(xlims)
-        ax.set_ylim(ylims)
-        ax.set_xlabel(self.xlabel)
-        ax.set_ylabel(self.ylabel)
-        ax.legend(loc=1)
+        self.ax.set_xlim(xlims if xlims != None else (min(min(list(arg.keys())) for arg in args), max(max(list(arg.keys()) for arg in args)))) # set x-axis limits
+        self.ax.set_ylim(ylims if ylims != None else (min(min(list(arg.values())) for arg in args), max(max(list(arg.values()) for arg in args)))) # set y-axis limits
+        self.ax.set_xlabel(self.xlabel)
+        self.ax.set_ylabel(self.ylabel)
+        self.ax.legend(loc=1)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
@@ -254,22 +254,23 @@ class Plotter():
 
         metadata = dict(title="Diffusion", artist="Resul Teymuroglu")
         writer = FFMpegWriter(fps=100, metadata=metadata)
-        ax = self.fig.add_subplot(111)
-        l, = ax.plot([], [], ls="-", color="red")
+        l, = self.ax.plot([], [], ls="-", color="red")
+        tlist = np.linspace(0, time, 1000)
+
+        self.ax.set_xlim(xlims)
+        self.ax.set_ylim(ylims)
+        self.ax.set_xlabel(self.xlabel)
+        self.ax.set_ylabel(self.ylabel)
 
         with writer.saving(self.fig, f"videos/{self.figname}.mp4", 100):
-            for tval in np.linspace(0, time, 1000):
-                ax.set_xlim(xlims)
-                ax.set_ylim(ylims)
-                ax.set_xlabel(self.xlabel)
-                ax.set_ylabel(self.ylabel)
+            for tval in tlist:
 
                 ylist = np.array([])
                 match tval:
                     case 0:
                         ylist = xlist * 0
                     case _:
-                        ylist = func(xlist, tval) / max(func(xlist, np.linspace(0, time, 1000)[1])) #normalises the function
+                        ylist = func(xlist, tval) / max(func(xlist, tlist[1])) #normalises the function
 
                 l.set_data(xlist, ylist) #updates the plot
                 writer.grab_frame() #saves the frame
