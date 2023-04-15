@@ -75,9 +75,12 @@ class Brains():
         self.random_multiple = RandomWalk("random-multiple")
         self.decay_static = RandomWalk("decay-static")
         
-        #Creating Dopant Mobility and Plotter Classes:
-        self.dopant_mobility = DopantMobility("dopant_mobility")
+        #Creating Plotter Classes:
         self.area_vs_steps = Plotter("Number of Steps", "Integral Area", "area_vs_steps")
+        self.diffusion_colourmap = Plotter("t / s", "x / $\mu$m", "diffusion_colourmap")
+
+        #Creating Dopant Mobility Class:
+        self.dopant_mobility = DopantMobility("dopant_mobility")
 
 
     def normalise_dict(self, target_dict):
@@ -104,10 +107,11 @@ class Brains():
             return [dict(zip(target_dict[i].keys(), [target_dict[i][j] / dict_max for j in target_dict[i].keys()])) for i in range(len(target_dict))]
 
 
-    def produce_videos(self):
+    def plot_videos(self):
         """
         Produces the videos.
         """
+        print("Producing Videos...")
 
         self.diffusion.animate(self.diffusion.xlist, self.diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 1))
         self.drift.animate(self.drift.xlist, self.drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 1))
@@ -118,6 +122,7 @@ class Brains():
         """
         Plots the graphs.
         """
+        print("Plotting Graphs...")
 
         list_steps = np.array([i for i in range(500, 2501, 500)]) # List of steps for random walk
 
@@ -134,3 +139,13 @@ class Brains():
         self.decay_static.plot_graph(*dict2, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", zlist=self.random.tlist, zlabel="Time / s", colourbar=True)
         self.area_vs_steps.plot_graph(dict4, marker="x", xlims=(0, 3000), ylims=(0, 100), labels=["Integral Area"], best_fit="linear")
         self.dopant_mobility.plot_graph(dict(zip(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list))), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-", labels=["Mobility"])
+
+
+    def plot_colourmaps(self):
+        """
+        Plots the colourmaps.
+        """
+        print("Plotting Colourmaps...")
+
+
+        self.diffusion_colourmap.plot_colourmap(dict(zip(np.linspace(-1, 1, 500), np.linspace(1e-8, 10, 500))), func=self.diffusion.diffusion_1d, xlims=(-0.5, 0.5), ylims=(0, 1), zlabel = "Normalised Concentration / $n_{0}$")
