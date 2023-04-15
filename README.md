@@ -32,13 +32,13 @@ where $\tau_{F}$ and $m$ are the carrier lifetime (more on this later) and mass 
 
 Now that our choice of modelling is justified, let us see what the motion of these minoirty charge carriers should look like:
 
-[diffusion](https://user-images.githubusercontent.com/102374376/226909400-230ca4e8-aa51-4044-b80e-1f2a0e5b17b2.mp4)
+[diffusion](https://user-images.githubusercontent.com/102374376/232182922-491f5f13-fcab-4bcd-88d5-f390c2038849.mp4)
 
 Note: this animation can be found in videos/diffusion.mp4.
 
 The animation above shows an initial peak at $x, t, = 0$, corresponding to the point of charge injection into the semiconductor. The charge carriers then spread out acorss both x-directions, lowering the peak and widening the curve. Note that in this case, since the Gaussian represents a probability distribution across the length of the semiconductor, and the number of MCCs within the semiconductor remains constant, the area under this distribution also remains constant. This is why the lowering and broadening of the distribution's peak is observed.
 
-[colourmap](https://github.com/tresul03/The-Haynes-Shockley-Experiment-/blob/5d29f3bd442d85b482de684c49c38c1f1564597f/plots/test.pdf)
+![diffusion_colourmap](https://user-images.githubusercontent.com/102374376/232182939-b28827b2-7a3f-49a8-a00a-3522804b352c.png)
 
 Above is another visualisation of the equation using a colourmap. A two dimensional grid, coordinates $x, t$, is formed, and each coordinate is coloured depending on the output of the diffusion equation at those coordinates.
 
@@ -59,7 +59,7 @@ By plotting the freuquency of each displacement against the displacement itself,
 
 You may realise that the properties of this random-walk distribution mirror that of a Gaussian. What this means is that the random-walk algorithm can effectively simulate one-dimensional diffusion. To further prove my point, I will plot an exponential best-fit curve to the random-walk distribution:
 
-![random](https://user-images.githubusercontent.com/102374376/230256953-c3636941-6a23-4906-9922-737db680612b.png)
+![random](https://user-images.githubusercontent.com/102374376/232182955-292b77e7-36a4-48e0-b3ac-7aed6c7ff61d.png)
 
 ## Overcoming the Limitations of the Random-Walk Algorithm
 
@@ -104,7 +104,7 @@ Further, we can introduce a probability of decay, where each particle has a non-
 
 I'll explain these concepts further, but perhaps I should demonstrate what I mean by means of displaying the improved simulation first:
 
-![random-multiple](https://user-images.githubusercontent.com/102374376/230269761-6c6b0a62-241a-4d78-b9dc-cb5aacae6f47.png)
+![random-multiple](https://user-images.githubusercontent.com/102374376/232182996-fbd077c1-afb5-4174-85e1-5a1e3da1dea5.png)
 
 Here we observe five different systems, each having a different probability of moving towards the right. This probability is also equivalent to their probability of decay. As expected, the higher the probability of moving towards the right, the more shifted towards the right each system becomes. Physically, it means that the particles in the system have a greater drft velocity, implying that the electric field inducing this $v$ is also larger. Therefore, the greater the probability of moving right, the larger the voltage applied across the semiconductor.
 
