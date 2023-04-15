@@ -48,7 +48,7 @@ class RandomWalk(Plotter):
         super().__init__(self.xlabel, self.ylabel, figname)
 
 
-    def random_walk(self, steps, skew_point: int, decay_prob=0) -> dict: #skew_point is the probability of moving right, decay_prob is the probability of decay
+    def random_walk(self, steps, drift_prob: int, decay_prob=0) -> dict: #skew_point is the probability of moving right, decay_prob is the probability of decay
         """
         Generates a random walk.
         
@@ -68,26 +68,19 @@ class RandomWalk(Plotter):
         
         """
 
-        walker = 0 #initial particle position
-        positions = [] #list of final positions reached by each particle
+        num_particles = 500000
+        positions = np.zeros(num_particles, dtype=int)
 
-        for _ in range(10000): #10000 particles
-            for _ in range(steps): #1000 steps per particle
-                match random.randint(0, 100) <= skew_point: #probability of moving right 
-                    case False: 
-                        walker -= 1
-                    case _:
-                        walker += 1
-            
-            if random.randint(0, 100) >= decay_prob:
-                positions.append(walker)
+        for _ in range(steps):  
+            drift_right = np.random.rand(num_particles) <= (drift_prob / 100)
+            positions[drift_right] += 1
+            positions[~drift_right] -= 1
 
-            walker = 0 #resets position for next particle
-        
-        dict_positions = {} #dictionary of positions and number of particles at that position
-        for i in range(min(positions), max(positions)+1):
-            if positions.count(i) > 0:
-                dict_positions[i] = positions.count(i)
+        decay = np.random.rand(num_particles) > (decay_prob / 100)
+        positions = positions[decay]
+
+        unique_positions, counts = np.unique(positions, return_counts=True)
+        dict_positions = dict(zip(unique_positions, counts))
 
         return dict_positions
 
