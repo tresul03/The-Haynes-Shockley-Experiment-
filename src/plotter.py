@@ -2,6 +2,8 @@
 # Date: 8/4/2023
 # Description: This file contains the Plotter class, which prodcues plots, animations, and other types of figures the user requests for in the Brains class.
 
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -131,6 +133,14 @@ class Plotter():
         )
 
 
+    def add_colourbar(self, zlist):
+        cmap = LinearSegmentedColormap.from_list("mycmap", ["#0000ff", "#00ff00", "#ffff00", "#ff0000"][::-1])
+        sm = ScalarMappable(cmap=cmap)
+        sm.set_clim(vmin=min(zlist), vmax=max(zlist))
+
+        return sm
+
+
     def plot_multiple_subplots(self, n, *args: dict, best_fit=False, best_fit_label=False): #plots multiple graphs on the same figure
         """
         Plots multiple graphs on the same figure with the given data and optional best-fit lines.
@@ -180,7 +190,7 @@ class Plotter():
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
 
-    def plot_graph(self, *args: dict, labels:list=None, best_fit=False, ls="None", marker='x', xlims=None, ylims=None, best_fit_label=False): # plots multiple graphs on the same plot
+    def plot_graph(self, *args: dict, labels:list=None, best_fit=False, ls="None", marker='x', xlims=None, ylims=None, best_fit_label=False, zlist=None, zlabel=None, colourbar:bool=False): # plots multiple graphs on the same plot
         """
         Plots multiple graphs on the same plot with the given data and optional best-fit lines.
 
@@ -207,13 +217,15 @@ class Plotter():
         """
 
         for i in range(len(args)):
+            sm = self.add_colourbar(zlist) if colourbar else None
+
             self.ax.plot(
                 args[i].keys(),
                 args[i].values(),
                 ls=ls,
                 marker=marker,
                 markersize=4,
-                color=self.color,
+                color=self.color if not colourbar else sm.to_rgba(zlist[i]),
                 label=labels[i] if labels != None else None
             )
         
@@ -221,13 +233,17 @@ class Plotter():
                 self.plot_best_fit(self.ax, args[i].keys(), args[i].values(), best_fit, best_fit_label)
 
             # Generate a random color that has a contrast ratio of at least 3
-            self.color = self.generate_random_color(self.color)
+            self.color = self.generate_random_color(self.color) if not colourbar else self.color
 
         self.ax.set_xlim(xlims if xlims != None else (min(min(list(arg.keys())) for arg in args), max(max(list(arg.keys()) for arg in args)))) # set x-axis limits
         self.ax.set_ylim(ylims if ylims != None else (min(min(list(arg.values())) for arg in args), max(max(list(arg.values()) for arg in args)))) # set y-axis limits
         self.ax.set_xlabel(self.xlabel)
         self.ax.set_ylabel(self.ylabel)
-        self.ax.legend(loc=1)
+        self.ax.legend(loc=1) if labels != None else None
+
+        if colourbar:
+            cbar = self.fig.colorbar(sm)
+            cbar.set_label(zlabel, rotation=270, labelpad=15)
 
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
