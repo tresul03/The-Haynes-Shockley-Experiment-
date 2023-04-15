@@ -80,7 +80,7 @@ $P(x, t) = A(t)e^{-\frac{(x-vt)^{2}}{4Dt}}$.
 
 Visualising this equation across time, we get:
 
-[drift](https://user-images.githubusercontent.com/102374376/230268308-19da0f77-2418-4a13-bbb4-222c683b98f3.mp4)
+[drift](https://user-images.githubusercontent.com/102374376/232183043-e2b5a531-cbe3-43ed-be20-9068bc57bbe0.mp4)
 
 but there is one more property that the simulation does not yet account for.
 
@@ -92,7 +92,7 @@ $P(x, t) = A(t) e^{-\frac{(x-vt)^{2}}{4Dt}} e^{-\frac{t}{\tau_{F}}}$,
 
 which looks like this:
 
-[decay](https://user-images.githubusercontent.com/102374376/230268628-0a113ab1-6e9d-419d-9f95-5dbf92b53511.mp4)
+[decay](https://user-images.githubusercontent.com/102374376/232183092-61fb0b33-a54e-4470-a16a-86308d10ee58.mp4)
 
 ## The Complete Simulation
 
