@@ -48,7 +48,7 @@ class Plotter():
         self.hex_const = "#%06X"                                        #hexadecimal constant
         self.color = self.hex_const % random.randint(0, 0xFFFFFF)       #random colour for graph
         self.ax = self.fig.add_subplot(111)
-
+        self.cmap = LinearSegmentedColormap.from_list('custom', ['purple', 'orange', 'yellow'], N=1000)
 
     def generate_random_color(self, color1):
         """
@@ -134,8 +134,22 @@ class Plotter():
 
 
     def add_colourbar(self, zlist):
-        cmap = LinearSegmentedColormap.from_list("mycmap", ["#0000ff", "#00ff00", "#ffff00", "#ff0000"][::-1])
-        sm = ScalarMappable(cmap=cmap)
+        """
+        Adds a colourbar to the figure.
+
+        Parameters:
+        -----------
+        zlist : list
+            The list of z values.
+
+        Returns:
+        --------
+        sm : matplotlib.cm.ScalarMappable
+            The colourbar.
+
+        """
+
+        sm = ScalarMappable(cmap=self.cmap)
         sm.set_clim(vmin=min(zlist), vmax=max(zlist))
 
         return sm
@@ -228,7 +242,7 @@ class Plotter():
                 color=self.color if not colourbar else sm.to_rgba(zlist[i]),
                 label=labels[i] if labels != None else None
             )
-        
+
             if best_fit != False:
                 self.plot_best_fit(self.ax, args[i].keys(), args[i].values(), best_fit, best_fit_label)
 
@@ -245,6 +259,32 @@ class Plotter():
             cbar = self.fig.colorbar(sm)
             cbar.set_label(zlabel, rotation=270, labelpad=15)
 
+        self.fig.tight_layout()
+        self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
+
+
+    def plot_colourmap(self, arg, xlims=None, ylims=None, func=None, zlabel=None):
+        x = np.array(list(arg.keys()))
+        y = np.array(list(arg.values()))
+
+        X, Y = np.meshgrid(x, y)
+        Z = func(X, Y)
+        Z /= np.max(Z)
+
+        
+        sm = ScalarMappable(cmap=self.cmap)
+        sm.set_clim(vmin=np.min(Z), vmax=np.max(Z))
+
+        self.ax.pcolormesh(Y, X, Z, cmap=self.cmap)
+        
+        self.ax.set_xlabel(self.xlabel)
+        self.ax.set_ylabel(self.ylabel)
+        self.ax.set_xlim(ylims if ylims != None else (min(y), max(y)))
+        self.ax.set_ylim(xlims if xlims != None else (min(x), max(x)))
+
+        cbar = self.fig.colorbar(sm)
+        cbar.set_label(zlabel)
+        
         self.fig.tight_layout()
         self.fig.savefig(f"plots/{self.figname}.png", dpi=350)
 
