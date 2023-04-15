@@ -114,6 +114,6 @@ In seeing both of these properties in the simulation, however, we notice a limit
 
 We can still view the effects of drift and decay across time on one system analyitcally, though:
 
-![decay-static](https://user-images.githubusercontent.com/102374376/230396225-9cdbabb9-4a33-4421-b8c6-0d3e024f05ad.png)
+![decay-static](https://user-images.githubusercontent.com/102374376/232183143-5b7b433a-ef87-47cb-a0ef-729ed58c8c6c.png)
 
 As shown above, a very slight drift can be observed theoretically. The drift being very gradual is due to the carrier lifetime of the MCCs. A near complete decay of the system is expected to occur within $100\mu s$, so not much drift can occur, except under extremely high voltages.
