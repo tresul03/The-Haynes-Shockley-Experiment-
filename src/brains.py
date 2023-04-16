@@ -64,8 +64,9 @@ class Brains():
         None
 
         """
-
-        self.list_steps = np.array([i for i in range(500, 2501, 500)]) # List of steps for random walk
+        
+        # List of steps for random walk
+        self.list_steps = np.array([i for i in range(500, 2501, 500)]) 
 
         #Creating Diffusion Classes:
         self.diffusion = Diffusion("diffusion")
@@ -100,13 +101,15 @@ class Brains():
             The normalised dictionary, or a list of normalised dictionaries.
         """
 
-        if isinstance(target_dict, dict): # Returns one normalised dictionary
-            dict_max = max(target_dict.values())
-            return dict(zip(target_dict.keys(), [target_dict[i] / dict_max for i in target_dict.keys()]))
+        def normalise_single_dict(single_dict, dict_max):
+            return {key: value / dict_max for key, value in single_dict.items()}
 
-        elif isinstance(target_dict, list): # Returns a list of normalised dictionaries
-            dict_max = max([max(target_dict[i].values()) for i in range(len(target_dict))])
-            return [dict(zip(target_dict[i].keys(), [target_dict[i][j] / dict_max for j in target_dict[i].keys()])) for i in range(len(target_dict))]
+        if isinstance(target_dict, dict):  # Returns one normalised dictionary
+            return normalise_single_dict(target_dict, max(target_dict.values()))
+
+        elif isinstance(target_dict, list):  # Returns a list of normalised dictionaries
+            return [normalise_single_dict(d, max(target_dict[0].values())) for d in target_dict]
+
 
 
     def plot_videos(self):
