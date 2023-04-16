@@ -50,6 +50,7 @@ class Plotter():
         self.ax = self.fig.add_subplot(111)
         self.cmap = LinearSegmentedColormap.from_list('custom', ['purple', 'orange', 'yellow'], N=1000)
 
+
     def generate_random_color(self, color1):
         """
         Generates a random color that has a contrast ratio of at least 3 with
@@ -176,7 +177,7 @@ class Plotter():
         """
 
         assert len(args) == n, "Number of arguments must equal number of graphs to be plotted"
-        
+
         rows = int(np.ceil(n/np.ceil(np.sqrt(n))))
         columns = int(np.ceil(np.sqrt(n)))
 
@@ -233,6 +234,9 @@ class Plotter():
         for i in range(len(args)):
             sm = self.add_colourbar(zlist) if colourbar else None
 
+            if best_fit != False:
+                self.plot_best_fit(self.ax, args[i].keys(), args[i].values(), best_fit, best_fit_label)
+
             self.ax.plot(
                 args[i].keys(),
                 args[i].values(),
@@ -242,9 +246,6 @@ class Plotter():
                 color=self.color if not colourbar else sm.to_rgba(zlist[i]),
                 label=labels[i] if labels != None else None
             )
-
-            if best_fit != False:
-                self.plot_best_fit(self.ax, args[i].keys(), args[i].values(), best_fit, best_fit_label)
 
             # Generate a random color that has a contrast ratio of at least 3
             self.color = self.generate_random_color(self.color) if not colourbar else self.color
