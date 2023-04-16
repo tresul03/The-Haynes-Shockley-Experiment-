@@ -141,8 +141,7 @@ class Brains():
         dict1 = self.normalise_dict(self.random.random_walk(1000, 50))
         dict2 = self.normalise_dict([dict(zip(self.random.xlist, self.diffusion.diffusion_decay_1d(self.random.xlist, tval))) for tval in self.random.tlist])
         dict3 = self.normalise_dict([self.random.random_walk(i, 51, (i/2600)*100) for i in self.list_steps])
-        # dict3_integrals = [trapz(list(arg.values()), list(arg.keys())) for arg in dict3] # Integrals of the random walk graphs
-        # dict4 = dict(zip(self.list_steps, dict3_integrals))
+
 
         return dict1, dict2, dict3
 
@@ -158,7 +157,6 @@ class Brains():
         self.random.plot_graph(dict1, labels=["Random Walk"], best_fit="gaussian", best_fit_label=True)
         self.decay_static.plot_graph(*dict2, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", zlist=self.random.tlist, zlabel="Time / s", colourbar=True)
         self.random_multiple.plot_graph(*dict3, labels=[f"Steps = {i}" for i in self.list_steps], ylims=(0, 1))
-        # self.area_vs_steps.plot_graph(dict4, marker="x", xlims=(0, 3000), ylims=(0, 100), labels=["Integral Area"], best_fit="linear")
         self.dopant_mobility.plot_graph(dict(zip(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list))), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-", labels=["Mobility"])
 
 
