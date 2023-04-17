@@ -119,8 +119,8 @@ class Brains():
         print("Producing Videos...")
 
         self.diffusion.animate(self.diffusion.xlist, self.diffusion.diffusion_1d, 10, (-0.5, 0.5), (0, 1))
-        self.drift.animate(self.drift.xlist, self.drift.diffusion_drift_1d, 0.1, (-1, 1), (0, 1))
-        self.decay.animate(self.decay.xlist, self.decay.diffusion_decay_1d, 1.5e-4, (-0.0025, 0.0025), (0, 1))
+        self.drift.animate(self.drift.xlist, self.drift.diffusion_drift_1d, 0.01, (-1, 1), (0, 1))
+        self.decay.animate(self.decay.xlist, self.decay.diffusion_decay_1d, 1e-4, (-0.0025, 0.0025), (0, 1))
 
 
     def process_data(self):
@@ -158,7 +158,7 @@ class Brains():
 
         print("Plotting Graphs...")
         self.random.plot_graph(dict1, labels=["Random Walk"], best_fit="gaussian", best_fit_label=True)
-        self.decay_static.plot_graph(*dict2, xlims=(-0.0025, 0.0025), ylims=(0, 1), marker="None", ls="-", zlist=self.random.tlist, zlabel="Time / s", colourbar=True)
+        self.decay_static.plot_graph(*dict2, xlims=(0.008, 0.012), ylims=(0, 1), marker="None", ls="-", zlist=self.random.tlist, zlabel="Time / s", colourbar=True)
         self.random_multiple.plot_graph(*dict3, labels=[f"Steps = {i}" for i in self.list_steps], ylims=(0, 1))
         self.dopant_mobility.plot_graph(dict(zip(self.dopant_mobility.temp_list, self.dopant_mobility.mobility(self.dopant_mobility.temp_list))), xlims=(250, 400), ylims=(0, 2e3), marker="None", ls="-", labels=["Mobility"])
 

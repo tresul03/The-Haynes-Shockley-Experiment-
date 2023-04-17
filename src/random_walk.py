@@ -42,7 +42,7 @@ class RandomWalk(Plotter):
         self.xlabel = "Displacement / $\mu$m"
         self.ylabel = "Frequency"
         self.xlist = np.linspace(-1, 1, 500000)
-        self.tlist = np.linspace(0.4e-4, 1e-4, 15) 
+        self.tlist = np.linspace(0.4e-4, 0.45e-4, 15) 
         self.values = Values()
 
         super().__init__(self.xlabel, self.ylabel, figname)
